@@ -11,8 +11,10 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as TrainingRouteImport } from './routes/training'
 import { Route as TexturesRouteImport } from './routes/textures'
+import { Route as StoreRouteImport } from './routes/store'
 import { Route as ServicesRouteImport } from './routes/services'
 import { Route as CustomDesignsRouteImport } from './routes/custom-designs'
+import { Route as CartRouteImport } from './routes/cart'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ApiVisualiseRouteImport } from './routes/api/visualise'
 
@@ -26,6 +28,11 @@ const TexturesRoute = TexturesRouteImport.update({
   path: '/textures',
   getParentRoute: () => rootRouteImport,
 } as any)
+const StoreRoute = StoreRouteImport.update({
+  id: '/store',
+  path: '/store',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ServicesRoute = ServicesRouteImport.update({
   id: '/services',
   path: '/services',
@@ -34,6 +41,11 @@ const ServicesRoute = ServicesRouteImport.update({
 const CustomDesignsRoute = CustomDesignsRouteImport.update({
   id: '/custom-designs',
   path: '/custom-designs',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CartRoute = CartRouteImport.update({
+  id: '/cart',
+  path: '/cart',
   getParentRoute: () => rootRouteImport,
 } as any)
 const IndexRoute = IndexRouteImport.update({
@@ -49,16 +61,20 @@ const ApiVisualiseRoute = ApiVisualiseRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/cart': typeof CartRoute
   '/custom-designs': typeof CustomDesignsRoute
   '/services': typeof ServicesRoute
+  '/store': typeof StoreRoute
   '/textures': typeof TexturesRoute
   '/training': typeof TrainingRoute
   '/api/visualise': typeof ApiVisualiseRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/cart': typeof CartRoute
   '/custom-designs': typeof CustomDesignsRoute
   '/services': typeof ServicesRoute
+  '/store': typeof StoreRoute
   '/textures': typeof TexturesRoute
   '/training': typeof TrainingRoute
   '/api/visualise': typeof ApiVisualiseRoute
@@ -66,8 +82,10 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/cart': typeof CartRoute
   '/custom-designs': typeof CustomDesignsRoute
   '/services': typeof ServicesRoute
+  '/store': typeof StoreRoute
   '/textures': typeof TexturesRoute
   '/training': typeof TrainingRoute
   '/api/visualise': typeof ApiVisualiseRoute
@@ -76,24 +94,30 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/cart'
     | '/custom-designs'
     | '/services'
+    | '/store'
     | '/textures'
     | '/training'
     | '/api/visualise'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/cart'
     | '/custom-designs'
     | '/services'
+    | '/store'
     | '/textures'
     | '/training'
     | '/api/visualise'
   id:
     | '__root__'
     | '/'
+    | '/cart'
     | '/custom-designs'
     | '/services'
+    | '/store'
     | '/textures'
     | '/training'
     | '/api/visualise'
@@ -101,8 +125,10 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  CartRoute: typeof CartRoute
   CustomDesignsRoute: typeof CustomDesignsRoute
   ServicesRoute: typeof ServicesRoute
+  StoreRoute: typeof StoreRoute
   TexturesRoute: typeof TexturesRoute
   TrainingRoute: typeof TrainingRoute
   ApiVisualiseRoute: typeof ApiVisualiseRoute
@@ -124,6 +150,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof TexturesRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/store': {
+      id: '/store'
+      path: '/store'
+      fullPath: '/store'
+      preLoaderRoute: typeof StoreRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/services': {
       id: '/services'
       path: '/services'
@@ -136,6 +169,13 @@ declare module '@tanstack/react-router' {
       path: '/custom-designs'
       fullPath: '/custom-designs'
       preLoaderRoute: typeof CustomDesignsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/cart': {
+      id: '/cart'
+      path: '/cart'
+      fullPath: '/cart'
+      preLoaderRoute: typeof CartRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/': {
@@ -157,8 +197,10 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  CartRoute: CartRoute,
   CustomDesignsRoute: CustomDesignsRoute,
   ServicesRoute: ServicesRoute,
+  StoreRoute: StoreRoute,
   TexturesRoute: TexturesRoute,
   TrainingRoute: TrainingRoute,
   ApiVisualiseRoute: ApiVisualiseRoute,
