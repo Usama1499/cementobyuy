@@ -9,15 +9,22 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as VisualiserRouteImport } from './routes/visualiser'
 import { Route as TrainingRouteImport } from './routes/training'
 import { Route as TexturesRouteImport } from './routes/textures'
 import { Route as StoreRouteImport } from './routes/store'
 import { Route as ServicesRouteImport } from './routes/services'
 import { Route as CustomDesignsRouteImport } from './routes/custom-designs'
+import { Route as ContactRouteImport } from './routes/contact'
 import { Route as CartRouteImport } from './routes/cart'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ApiVisualiseRouteImport } from './routes/api/visualise'
 
+const VisualiserRoute = VisualiserRouteImport.update({
+  id: '/visualiser',
+  path: '/visualiser',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const TrainingRoute = TrainingRouteImport.update({
   id: '/training',
   path: '/training',
@@ -43,6 +50,11 @@ const CustomDesignsRoute = CustomDesignsRouteImport.update({
   path: '/custom-designs',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ContactRoute = ContactRouteImport.update({
+  id: '/contact',
+  path: '/contact',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const CartRoute = CartRouteImport.update({
   id: '/cart',
   path: '/cart',
@@ -62,32 +74,38 @@ const ApiVisualiseRoute = ApiVisualiseRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/cart': typeof CartRoute
+  '/contact': typeof ContactRoute
   '/custom-designs': typeof CustomDesignsRoute
   '/services': typeof ServicesRoute
   '/store': typeof StoreRoute
   '/textures': typeof TexturesRoute
   '/training': typeof TrainingRoute
+  '/visualiser': typeof VisualiserRoute
   '/api/visualise': typeof ApiVisualiseRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/cart': typeof CartRoute
+  '/contact': typeof ContactRoute
   '/custom-designs': typeof CustomDesignsRoute
   '/services': typeof ServicesRoute
   '/store': typeof StoreRoute
   '/textures': typeof TexturesRoute
   '/training': typeof TrainingRoute
+  '/visualiser': typeof VisualiserRoute
   '/api/visualise': typeof ApiVisualiseRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/cart': typeof CartRoute
+  '/contact': typeof ContactRoute
   '/custom-designs': typeof CustomDesignsRoute
   '/services': typeof ServicesRoute
   '/store': typeof StoreRoute
   '/textures': typeof TexturesRoute
   '/training': typeof TrainingRoute
+  '/visualiser': typeof VisualiserRoute
   '/api/visualise': typeof ApiVisualiseRoute
 }
 export interface FileRouteTypes {
@@ -95,47 +113,62 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/cart'
+    | '/contact'
     | '/custom-designs'
     | '/services'
     | '/store'
     | '/textures'
     | '/training'
+    | '/visualiser'
     | '/api/visualise'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/cart'
+    | '/contact'
     | '/custom-designs'
     | '/services'
     | '/store'
     | '/textures'
     | '/training'
+    | '/visualiser'
     | '/api/visualise'
   id:
     | '__root__'
     | '/'
     | '/cart'
+    | '/contact'
     | '/custom-designs'
     | '/services'
     | '/store'
     | '/textures'
     | '/training'
+    | '/visualiser'
     | '/api/visualise'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   CartRoute: typeof CartRoute
+  ContactRoute: typeof ContactRoute
   CustomDesignsRoute: typeof CustomDesignsRoute
   ServicesRoute: typeof ServicesRoute
   StoreRoute: typeof StoreRoute
   TexturesRoute: typeof TexturesRoute
   TrainingRoute: typeof TrainingRoute
+  VisualiserRoute: typeof VisualiserRoute
   ApiVisualiseRoute: typeof ApiVisualiseRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/visualiser': {
+      id: '/visualiser'
+      path: '/visualiser'
+      fullPath: '/visualiser'
+      preLoaderRoute: typeof VisualiserRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/training': {
       id: '/training'
       path: '/training'
@@ -171,6 +204,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CustomDesignsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/contact': {
+      id: '/contact'
+      path: '/contact'
+      fullPath: '/contact'
+      preLoaderRoute: typeof ContactRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/cart': {
       id: '/cart'
       path: '/cart'
@@ -198,11 +238,13 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   CartRoute: CartRoute,
+  ContactRoute: ContactRoute,
   CustomDesignsRoute: CustomDesignsRoute,
   ServicesRoute: ServicesRoute,
   StoreRoute: StoreRoute,
   TexturesRoute: TexturesRoute,
   TrainingRoute: TrainingRoute,
+  VisualiserRoute: VisualiserRoute,
   ApiVisualiseRoute: ApiVisualiseRoute,
 }
 export const routeTree = rootRouteImport
