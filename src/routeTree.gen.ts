@@ -9,9 +9,33 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as TrainingRouteImport } from './routes/training'
+import { Route as TexturesRouteImport } from './routes/textures'
+import { Route as ServicesRouteImport } from './routes/services'
+import { Route as CustomDesignsRouteImport } from './routes/custom-designs'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ApiVisualiseRouteImport } from './routes/api/visualise'
 
+const TrainingRoute = TrainingRouteImport.update({
+  id: '/training',
+  path: '/training',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TexturesRoute = TexturesRouteImport.update({
+  id: '/textures',
+  path: '/textures',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ServicesRoute = ServicesRouteImport.update({
+  id: '/services',
+  path: '/services',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CustomDesignsRoute = CustomDesignsRouteImport.update({
+  id: '/custom-designs',
+  path: '/custom-designs',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
@@ -25,32 +49,95 @@ const ApiVisualiseRoute = ApiVisualiseRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/custom-designs': typeof CustomDesignsRoute
+  '/services': typeof ServicesRoute
+  '/textures': typeof TexturesRoute
+  '/training': typeof TrainingRoute
   '/api/visualise': typeof ApiVisualiseRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/custom-designs': typeof CustomDesignsRoute
+  '/services': typeof ServicesRoute
+  '/textures': typeof TexturesRoute
+  '/training': typeof TrainingRoute
   '/api/visualise': typeof ApiVisualiseRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/custom-designs': typeof CustomDesignsRoute
+  '/services': typeof ServicesRoute
+  '/textures': typeof TexturesRoute
+  '/training': typeof TrainingRoute
   '/api/visualise': typeof ApiVisualiseRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/api/visualise'
+  fullPaths:
+    | '/'
+    | '/custom-designs'
+    | '/services'
+    | '/textures'
+    | '/training'
+    | '/api/visualise'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/api/visualise'
-  id: '__root__' | '/' | '/api/visualise'
+  to:
+    | '/'
+    | '/custom-designs'
+    | '/services'
+    | '/textures'
+    | '/training'
+    | '/api/visualise'
+  id:
+    | '__root__'
+    | '/'
+    | '/custom-designs'
+    | '/services'
+    | '/textures'
+    | '/training'
+    | '/api/visualise'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  CustomDesignsRoute: typeof CustomDesignsRoute
+  ServicesRoute: typeof ServicesRoute
+  TexturesRoute: typeof TexturesRoute
+  TrainingRoute: typeof TrainingRoute
   ApiVisualiseRoute: typeof ApiVisualiseRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/training': {
+      id: '/training'
+      path: '/training'
+      fullPath: '/training'
+      preLoaderRoute: typeof TrainingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/textures': {
+      id: '/textures'
+      path: '/textures'
+      fullPath: '/textures'
+      preLoaderRoute: typeof TexturesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/services': {
+      id: '/services'
+      path: '/services'
+      fullPath: '/services'
+      preLoaderRoute: typeof ServicesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/custom-designs': {
+      id: '/custom-designs'
+      path: '/custom-designs'
+      fullPath: '/custom-designs'
+      preLoaderRoute: typeof CustomDesignsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -70,6 +157,10 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  CustomDesignsRoute: CustomDesignsRoute,
+  ServicesRoute: ServicesRoute,
+  TexturesRoute: TexturesRoute,
+  TrainingRoute: TrainingRoute,
   ApiVisualiseRoute: ApiVisualiseRoute,
 }
 export const routeTree = rootRouteImport
