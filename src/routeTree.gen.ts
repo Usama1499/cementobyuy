@@ -9,38 +9,235 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as VisualiserRouteImport } from './routes/visualiser'
+import { Route as TrainingRouteImport } from './routes/training'
+import { Route as TexturesRouteImport } from './routes/textures'
+import { Route as StoreRouteImport } from './routes/store'
+import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
+import { Route as ServicesRouteImport } from './routes/services'
+import { Route as CustomDesignsRouteImport } from './routes/custom-designs'
+import { Route as ContactRouteImport } from './routes/contact'
+import { Route as CartRouteImport } from './routes/cart'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ApiVisualiseRouteImport } from './routes/api/visualise'
 
+const VisualiserRoute = VisualiserRouteImport.update({
+  id: '/visualiser',
+  path: '/visualiser',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TrainingRoute = TrainingRouteImport.update({
+  id: '/training',
+  path: '/training',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TexturesRoute = TexturesRouteImport.update({
+  id: '/textures',
+  path: '/textures',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const StoreRoute = StoreRouteImport.update({
+  id: '/store',
+  path: '/store',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
+  id: '/sitemap.xml',
+  path: '/sitemap.xml',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ServicesRoute = ServicesRouteImport.update({
+  id: '/services',
+  path: '/services',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CustomDesignsRoute = CustomDesignsRouteImport.update({
+  id: '/custom-designs',
+  path: '/custom-designs',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ContactRoute = ContactRouteImport.update({
+  id: '/contact',
+  path: '/contact',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CartRoute = CartRouteImport.update({
+  id: '/cart',
+  path: '/cart',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiVisualiseRoute = ApiVisualiseRouteImport.update({
+  id: '/api/visualise',
+  path: '/api/visualise',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/cart': typeof CartRoute
+  '/contact': typeof ContactRoute
+  '/custom-designs': typeof CustomDesignsRoute
+  '/services': typeof ServicesRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/store': typeof StoreRoute
+  '/textures': typeof TexturesRoute
+  '/training': typeof TrainingRoute
+  '/visualiser': typeof VisualiserRoute
+  '/api/visualise': typeof ApiVisualiseRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/cart': typeof CartRoute
+  '/contact': typeof ContactRoute
+  '/custom-designs': typeof CustomDesignsRoute
+  '/services': typeof ServicesRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/store': typeof StoreRoute
+  '/textures': typeof TexturesRoute
+  '/training': typeof TrainingRoute
+  '/visualiser': typeof VisualiserRoute
+  '/api/visualise': typeof ApiVisualiseRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/cart': typeof CartRoute
+  '/contact': typeof ContactRoute
+  '/custom-designs': typeof CustomDesignsRoute
+  '/services': typeof ServicesRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/store': typeof StoreRoute
+  '/textures': typeof TexturesRoute
+  '/training': typeof TrainingRoute
+  '/visualiser': typeof VisualiserRoute
+  '/api/visualise': typeof ApiVisualiseRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/cart'
+    | '/contact'
+    | '/custom-designs'
+    | '/services'
+    | '/sitemap.xml'
+    | '/store'
+    | '/textures'
+    | '/training'
+    | '/visualiser'
+    | '/api/visualise'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/cart'
+    | '/contact'
+    | '/custom-designs'
+    | '/services'
+    | '/sitemap.xml'
+    | '/store'
+    | '/textures'
+    | '/training'
+    | '/visualiser'
+    | '/api/visualise'
+  id:
+    | '__root__'
+    | '/'
+    | '/cart'
+    | '/contact'
+    | '/custom-designs'
+    | '/services'
+    | '/sitemap.xml'
+    | '/store'
+    | '/textures'
+    | '/training'
+    | '/visualiser'
+    | '/api/visualise'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  CartRoute: typeof CartRoute
+  ContactRoute: typeof ContactRoute
+  CustomDesignsRoute: typeof CustomDesignsRoute
+  ServicesRoute: typeof ServicesRoute
+  SitemapDotxmlRoute: typeof SitemapDotxmlRoute
+  StoreRoute: typeof StoreRoute
+  TexturesRoute: typeof TexturesRoute
+  TrainingRoute: typeof TrainingRoute
+  VisualiserRoute: typeof VisualiserRoute
+  ApiVisualiseRoute: typeof ApiVisualiseRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/visualiser': {
+      id: '/visualiser'
+      path: '/visualiser'
+      fullPath: '/visualiser'
+      preLoaderRoute: typeof VisualiserRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/training': {
+      id: '/training'
+      path: '/training'
+      fullPath: '/training'
+      preLoaderRoute: typeof TrainingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/textures': {
+      id: '/textures'
+      path: '/textures'
+      fullPath: '/textures'
+      preLoaderRoute: typeof TexturesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/store': {
+      id: '/store'
+      path: '/store'
+      fullPath: '/store'
+      preLoaderRoute: typeof StoreRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/sitemap.xml': {
+      id: '/sitemap.xml'
+      path: '/sitemap.xml'
+      fullPath: '/sitemap.xml'
+      preLoaderRoute: typeof SitemapDotxmlRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/services': {
+      id: '/services'
+      path: '/services'
+      fullPath: '/services'
+      preLoaderRoute: typeof ServicesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/custom-designs': {
+      id: '/custom-designs'
+      path: '/custom-designs'
+      fullPath: '/custom-designs'
+      preLoaderRoute: typeof CustomDesignsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/contact': {
+      id: '/contact'
+      path: '/contact'
+      fullPath: '/contact'
+      preLoaderRoute: typeof ContactRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/cart': {
+      id: '/cart'
+      path: '/cart'
+      fullPath: '/cart'
+      preLoaderRoute: typeof CartRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -48,22 +245,29 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/visualise': {
+      id: '/api/visualise'
+      path: '/api/visualise'
+      fullPath: '/api/visualise'
+      preLoaderRoute: typeof ApiVisualiseRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  CartRoute: CartRoute,
+  ContactRoute: ContactRoute,
+  CustomDesignsRoute: CustomDesignsRoute,
+  ServicesRoute: ServicesRoute,
+  SitemapDotxmlRoute: SitemapDotxmlRoute,
+  StoreRoute: StoreRoute,
+  TexturesRoute: TexturesRoute,
+  TrainingRoute: TrainingRoute,
+  VisualiserRoute: VisualiserRoute,
+  ApiVisualiseRoute: ApiVisualiseRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}

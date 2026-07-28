@@ -1,0 +1,226 @@
+import { createFileRoute, Link } from "@tanstack/react-router";
+import { useState } from "react";
+import { Minus, Plus, ShoppingBag, Trash2 } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
+import { WhatsAppIcon } from "@/components/WhatsAppIcon";
+import { useCart } from "@/lib/cart";
+import { formatPrice } from "@/lib/products";
+import { site, whatsappLink } from "@/lib/site";
+
+export const Route = createFileRoute("/cart")({
+  head: () => ({
+    meta: [
+      { title: "Your Cart | Cemento Micro Cement Perth" },
+      {
+        name: "description",
+        content:
+          "Review your Microestil micro cement materials, adjust quantities and send your order enquiry straight to the Cemento team in Malaga, Perth.",
+      },
+      { property: "og:title", content: "Your Cart | Cemento Micro Cement Perth" },
+      {
+        property: "og:description",
+        content: "Review your micro cement materials and send your order enquiry to Cemento Perth.",
+      },
+      { name: "robots", content: "noindex" },
+    ],
+  }),
+  component: CartPage,
+});
+
+function CartPage() {
+  const { items, subtotal, count, setQty, remove, clear, hydrated } = useCart();
+  const [name, setName] = useState("");
+  const [contact, setContact] = useState("");
+  const [notes, setNotes] = useState("");
+
+  const orderMessage = [
+    `Hi Cemento, I'd like to order the following materials:`,
+    "",
+    ...items.map(
+      (i) => `• ${i.qty} × ${i.product.name} — ${formatPrice(i.product.price * i.qty)}`,
+    ),
+    "",
+    `Subtotal: ${formatPrice(subtotal)} (inc. GST)`,
+    name ? `Name: ${name}` : "",
+    contact ? `Contact: ${contact}` : "",
+    notes ? `Notes: ${notes}` : "",
+  ]
+    .filter((l) => l !== "" || true)
+    .join("\n");
+
+  return (
+    <div className="container-page py-14 md:py-20">
+      <p className="eyebrow">Cart</p>
+      <h1 className="mt-3 text-4xl md:text-5xl">Your materials</h1>
+      <p className="mt-4 max-w-2xl text-muted-foreground">
+        Prices include GST. Send your list through and we'll confirm stock, delivery or collection
+        from {site.address} and take payment on pick-up.
+      </p>
+
+      {!hydrated ? (
+        <p className="py-20 text-muted-foreground">Loading your cart…</p>
+      ) : items.length === 0 ? (
+        <div className="surface-card mt-12 flex flex-col items-center rounded-sm px-6 py-20 text-center">
+          <ShoppingBag className="h-8 w-8 text-muted-foreground" />
+          <h2 className="mt-5 text-xl">Your cart is empty</h2>
+          <p className="mt-2 max-w-sm text-sm text-muted-foreground">
+            Browse the Microestil range — base coats, finishing coats, primers, sealers and
+            pigments.
+          </p>
+          <Button asChild variant="clay" size="lg" className="mt-7">
+            <Link to="/store">Go to the shop</Link>
+          </Button>
+        </div>
+      ) : (
+        <div className="mt-12 grid gap-10 lg:grid-cols-[1.6fr_1fr] lg:items-start">
+          <div className="surface-card divide-y divide-border rounded-sm">
+            {items.map(({ product, qty }) => (
+              <div key={product.id} className="flex gap-4 p-5">
+                <img
+                  src={product.image}
+                  alt={product.name}
+                  loading="lazy"
+                  width={96}
+                  height={96}
+                  className="h-24 w-24 shrink-0 rounded-sm bg-secondary object-contain p-2 mix-blend-multiply"
+                />
+                <div className="flex flex-1 flex-col">
+                  <div className="flex flex-wrap items-start justify-between gap-3">
+                    <div>
+                      <p className="eyebrow text-[0.6rem]">{product.category}</p>
+                      <h2 className="mt-1 text-base leading-snug">{product.name}</h2>
+                    </div>
+                    <span className="font-display font-semibold">
+                      {formatPrice(product.price * qty)}
+                    </span>
+                  </div>
+                  <div className="mt-auto flex flex-wrap items-center gap-3 pt-4">
+                    <div className="flex items-center rounded-sm border border-border">
+                      <button
+                        type="button"
+                        aria-label={`Decrease quantity of ${product.name}`}
+                        onClick={() => setQty(product.id, qty - 1)}
+                        className="px-2.5 py-2 text-muted-foreground transition-colors hover:text-foreground"
+                      >
+                        <Minus className="h-4 w-4" />
+                      </button>
+                      <span className="min-w-8 text-center text-sm font-medium">{qty}</span>
+                      <button
+                        type="button"
+                        aria-label={`Increase quantity of ${product.name}`}
+                        onClick={() => setQty(product.id, qty + 1)}
+                        className="px-2.5 py-2 text-muted-foreground transition-colors hover:text-foreground"
+                      >
+                        <Plus className="h-4 w-4" />
+                      </button>
+                    </div>
+                    <span className="text-xs text-muted-foreground">
+                      {formatPrice(product.price)} each
+                    </span>
+                    <button
+                      type="button"
+                      onClick={() => remove(product.id)}
+                      className="ml-auto inline-flex items-center gap-1.5 text-xs text-muted-foreground transition-colors hover:text-destructive"
+                    >
+                      <Trash2 className="h-3.5 w-3.5" /> Remove
+                    </button>
+                  </div>
+                </div>
+              </div>
+            ))}
+            <div className="flex justify-between p-5">
+              <button
+                type="button"
+                onClick={clear}
+                className="text-xs text-muted-foreground underline-offset-4 hover:underline"
+              >
+                Clear cart
+              </button>
+              <Link
+                to="/store"
+                className="text-xs font-medium text-clay underline-offset-4 hover:underline"
+              >
+                Continue shopping
+              </Link>
+            </div>
+          </div>
+
+          <aside className="surface-card rounded-sm p-6">
+            <h2 className="text-xl">Order summary</h2>
+            <dl className="mt-5 space-y-2 text-sm">
+              <div className="flex justify-between">
+                <dt className="text-muted-foreground">Items</dt>
+                <dd>{count}</dd>
+              </div>
+              <div className="flex justify-between">
+                <dt className="text-muted-foreground">Delivery</dt>
+                <dd className="text-muted-foreground">Quoted on request</dd>
+              </div>
+              <div className="flex justify-between border-t border-border pt-3 text-base font-semibold">
+                <dt>Subtotal (inc. GST)</dt>
+                <dd className="font-display">{formatPrice(subtotal)}</dd>
+              </div>
+            </dl>
+
+            <div className="mt-6 space-y-4">
+              <div>
+                <Label htmlFor="cart-name">Your name</Label>
+                <Input
+                  id="cart-name"
+                  value={name}
+                  maxLength={100}
+                  onChange={(e) => setName(e.target.value)}
+                  placeholder="Jane Smith"
+                  className="mt-1.5"
+                />
+              </div>
+              <div>
+                <Label htmlFor="cart-contact">Phone or email</Label>
+                <Input
+                  id="cart-contact"
+                  value={contact}
+                  maxLength={120}
+                  onChange={(e) => setContact(e.target.value)}
+                  placeholder="0400 000 000"
+                  className="mt-1.5"
+                />
+              </div>
+              <div>
+                <Label htmlFor="cart-notes">Notes</Label>
+                <Textarea
+                  id="cart-notes"
+                  value={notes}
+                  maxLength={500}
+                  rows={3}
+                  onChange={(e) => setNotes(e.target.value)}
+                  placeholder="Delivery suburb, colour matching, pick-up day…"
+                  className="mt-1.5"
+                />
+              </div>
+            </div>
+
+            <Button asChild variant="whatsapp" size="lg" className="mt-6 w-full">
+              <a
+                href={whatsappLink(orderMessage)}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <WhatsAppIcon className="h-4 w-4" /> Send order via WhatsApp
+              </a>
+            </Button>
+            <Button asChild variant="outline" size="lg" className="mt-3 w-full">
+              <a href={site.phoneHref}>Call {site.phoneDisplay}</a>
+            </Button>
+            <p className="mt-4 text-xs leading-relaxed text-muted-foreground">
+              No payment is taken online. We confirm stock and pricing first, then arrange payment
+              on collection or delivery.
+            </p>
+          </aside>
+        </div>
+      )}
+    </div>
+  );
+}
