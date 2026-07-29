@@ -9,7 +9,6 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as VisualiserRouteImport } from './routes/visualiser'
 import { Route as TrainingRouteImport } from './routes/training'
 import { Route as TexturesRouteImport } from './routes/textures'
 import { Route as StoreRouteImport } from './routes/store'
@@ -18,14 +17,14 @@ import { Route as ServicesRouteImport } from './routes/services'
 import { Route as CustomDesignsRouteImport } from './routes/custom-designs'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as CartRouteImport } from './routes/cart'
+import { Route as AuthRouteImport } from './routes/auth'
+import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as IndexRouteImport } from './routes/index'
-import { Route as ApiVisualiseRouteImport } from './routes/api/visualise'
+import { Route as AuthenticatedVisualiserRouteImport } from './routes/_authenticated/visualiser'
+import { Route as AuthenticatedCheckoutRouteImport } from './routes/_authenticated/checkout'
+import { Route as AuthenticatedAccountRouteImport } from './routes/_authenticated/account'
+import { Route as AuthenticatedCheckoutSuccessRouteImport } from './routes/_authenticated/checkout.success'
 
-const VisualiserRoute = VisualiserRouteImport.update({
-  id: '/visualiser',
-  path: '/visualiser',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const TrainingRoute = TrainingRouteImport.update({
   id: '/training',
   path: '/training',
@@ -66,19 +65,45 @@ const CartRoute = CartRouteImport.update({
   path: '/cart',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthRoute = AuthRouteImport.update({
+  id: '/auth',
+  path: '/auth',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
+  id: '/_authenticated',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const ApiVisualiseRoute = ApiVisualiseRouteImport.update({
-  id: '/api/visualise',
-  path: '/api/visualise',
-  getParentRoute: () => rootRouteImport,
+const AuthenticatedVisualiserRoute = AuthenticatedVisualiserRouteImport.update({
+  id: '/visualiser',
+  path: '/visualiser',
+  getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedCheckoutRoute = AuthenticatedCheckoutRouteImport.update({
+  id: '/checkout',
+  path: '/checkout',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedAccountRoute = AuthenticatedAccountRouteImport.update({
+  id: '/account',
+  path: '/account',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedCheckoutSuccessRoute =
+  AuthenticatedCheckoutSuccessRouteImport.update({
+    id: '/success',
+    path: '/success',
+    getParentRoute: () => AuthenticatedCheckoutRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/auth': typeof AuthRoute
   '/cart': typeof CartRoute
   '/contact': typeof ContactRoute
   '/custom-designs': typeof CustomDesignsRoute
@@ -87,11 +112,14 @@ export interface FileRoutesByFullPath {
   '/store': typeof StoreRoute
   '/textures': typeof TexturesRoute
   '/training': typeof TrainingRoute
-  '/visualiser': typeof VisualiserRoute
-  '/api/visualise': typeof ApiVisualiseRoute
+  '/account': typeof AuthenticatedAccountRoute
+  '/checkout': typeof AuthenticatedCheckoutRouteWithChildren
+  '/visualiser': typeof AuthenticatedVisualiserRoute
+  '/checkout/success': typeof AuthenticatedCheckoutSuccessRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/auth': typeof AuthRoute
   '/cart': typeof CartRoute
   '/contact': typeof ContactRoute
   '/custom-designs': typeof CustomDesignsRoute
@@ -100,12 +128,16 @@ export interface FileRoutesByTo {
   '/store': typeof StoreRoute
   '/textures': typeof TexturesRoute
   '/training': typeof TrainingRoute
-  '/visualiser': typeof VisualiserRoute
-  '/api/visualise': typeof ApiVisualiseRoute
+  '/account': typeof AuthenticatedAccountRoute
+  '/checkout': typeof AuthenticatedCheckoutRouteWithChildren
+  '/visualiser': typeof AuthenticatedVisualiserRoute
+  '/checkout/success': typeof AuthenticatedCheckoutSuccessRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
+  '/auth': typeof AuthRoute
   '/cart': typeof CartRoute
   '/contact': typeof ContactRoute
   '/custom-designs': typeof CustomDesignsRoute
@@ -114,13 +146,16 @@ export interface FileRoutesById {
   '/store': typeof StoreRoute
   '/textures': typeof TexturesRoute
   '/training': typeof TrainingRoute
-  '/visualiser': typeof VisualiserRoute
-  '/api/visualise': typeof ApiVisualiseRoute
+  '/_authenticated/account': typeof AuthenticatedAccountRoute
+  '/_authenticated/checkout': typeof AuthenticatedCheckoutRouteWithChildren
+  '/_authenticated/visualiser': typeof AuthenticatedVisualiserRoute
+  '/_authenticated/checkout/success': typeof AuthenticatedCheckoutSuccessRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/auth'
     | '/cart'
     | '/contact'
     | '/custom-designs'
@@ -129,11 +164,14 @@ export interface FileRouteTypes {
     | '/store'
     | '/textures'
     | '/training'
+    | '/account'
+    | '/checkout'
     | '/visualiser'
-    | '/api/visualise'
+    | '/checkout/success'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/auth'
     | '/cart'
     | '/contact'
     | '/custom-designs'
@@ -142,11 +180,15 @@ export interface FileRouteTypes {
     | '/store'
     | '/textures'
     | '/training'
+    | '/account'
+    | '/checkout'
     | '/visualiser'
-    | '/api/visualise'
+    | '/checkout/success'
   id:
     | '__root__'
     | '/'
+    | '/_authenticated'
+    | '/auth'
     | '/cart'
     | '/contact'
     | '/custom-designs'
@@ -155,12 +197,16 @@ export interface FileRouteTypes {
     | '/store'
     | '/textures'
     | '/training'
-    | '/visualiser'
-    | '/api/visualise'
+    | '/_authenticated/account'
+    | '/_authenticated/checkout'
+    | '/_authenticated/visualiser'
+    | '/_authenticated/checkout/success'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
+  AuthRoute: typeof AuthRoute
   CartRoute: typeof CartRoute
   ContactRoute: typeof ContactRoute
   CustomDesignsRoute: typeof CustomDesignsRoute
@@ -169,19 +215,10 @@ export interface RootRouteChildren {
   StoreRoute: typeof StoreRoute
   TexturesRoute: typeof TexturesRoute
   TrainingRoute: typeof TrainingRoute
-  VisualiserRoute: typeof VisualiserRoute
-  ApiVisualiseRoute: typeof ApiVisualiseRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/visualiser': {
-      id: '/visualiser'
-      path: '/visualiser'
-      fullPath: '/visualiser'
-      preLoaderRoute: typeof VisualiserRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/training': {
       id: '/training'
       path: '/training'
@@ -238,6 +275,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CartRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/auth': {
+      id: '/auth'
+      path: '/auth'
+      fullPath: '/auth'
+      preLoaderRoute: typeof AuthRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_authenticated': {
+      id: '/_authenticated'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof AuthenticatedRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -245,18 +296,69 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/api/visualise': {
-      id: '/api/visualise'
-      path: '/api/visualise'
-      fullPath: '/api/visualise'
-      preLoaderRoute: typeof ApiVisualiseRouteImport
-      parentRoute: typeof rootRouteImport
+    '/_authenticated/visualiser': {
+      id: '/_authenticated/visualiser'
+      path: '/visualiser'
+      fullPath: '/visualiser'
+      preLoaderRoute: typeof AuthenticatedVisualiserRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/checkout': {
+      id: '/_authenticated/checkout'
+      path: '/checkout'
+      fullPath: '/checkout'
+      preLoaderRoute: typeof AuthenticatedCheckoutRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/account': {
+      id: '/_authenticated/account'
+      path: '/account'
+      fullPath: '/account'
+      preLoaderRoute: typeof AuthenticatedAccountRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/checkout/success': {
+      id: '/_authenticated/checkout/success'
+      path: '/success'
+      fullPath: '/checkout/success'
+      preLoaderRoute: typeof AuthenticatedCheckoutSuccessRouteImport
+      parentRoute: typeof AuthenticatedCheckoutRoute
     }
   }
 }
 
+interface AuthenticatedCheckoutRouteChildren {
+  AuthenticatedCheckoutSuccessRoute: typeof AuthenticatedCheckoutSuccessRoute
+}
+
+const AuthenticatedCheckoutRouteChildren: AuthenticatedCheckoutRouteChildren = {
+  AuthenticatedCheckoutSuccessRoute: AuthenticatedCheckoutSuccessRoute,
+}
+
+const AuthenticatedCheckoutRouteWithChildren =
+  AuthenticatedCheckoutRoute._addFileChildren(
+    AuthenticatedCheckoutRouteChildren,
+  )
+
+interface AuthenticatedRouteRouteChildren {
+  AuthenticatedAccountRoute: typeof AuthenticatedAccountRoute
+  AuthenticatedCheckoutRoute: typeof AuthenticatedCheckoutRouteWithChildren
+  AuthenticatedVisualiserRoute: typeof AuthenticatedVisualiserRoute
+}
+
+const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
+  AuthenticatedAccountRoute: AuthenticatedAccountRoute,
+  AuthenticatedCheckoutRoute: AuthenticatedCheckoutRouteWithChildren,
+  AuthenticatedVisualiserRoute: AuthenticatedVisualiserRoute,
+}
+
+const AuthenticatedRouteRouteWithChildren =
+  AuthenticatedRouteRoute._addFileChildren(AuthenticatedRouteRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
+  AuthRoute: AuthRoute,
   CartRoute: CartRoute,
   ContactRoute: ContactRoute,
   CustomDesignsRoute: CustomDesignsRoute,
@@ -265,9 +367,17 @@ const rootRouteChildren: RootRouteChildren = {
   StoreRoute: StoreRoute,
   TexturesRoute: TexturesRoute,
   TrainingRoute: TrainingRoute,
-  VisualiserRoute: VisualiserRoute,
-  ApiVisualiseRoute: ApiVisualiseRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}
