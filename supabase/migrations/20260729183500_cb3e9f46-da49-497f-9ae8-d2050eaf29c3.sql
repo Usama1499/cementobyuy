@@ -1,0 +1,1 @@
+DROP FUNCTION IF EXISTS public.viz_count_current_month(UUID);
