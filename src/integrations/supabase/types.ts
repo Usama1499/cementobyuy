@@ -14,13 +14,219 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      colors: {
+        Row: {
+          active: boolean
+          hex: string
+          id: string
+          name: string
+          prompt_fragment: string
+          sort_order: number
+        }
+        Insert: {
+          active?: boolean
+          hex: string
+          id: string
+          name: string
+          prompt_fragment: string
+          sort_order?: number
+        }
+        Update: {
+          active?: boolean
+          hex?: string
+          id?: string
+          name?: string
+          prompt_fragment?: string
+          sort_order?: number
+        }
+        Relationships: []
+      }
+      orders: {
+        Row: {
+          created_at: string
+          currency: string
+          customer_email: string | null
+          customer_name: string | null
+          id: string
+          items: Json
+          notes: string | null
+          status: string
+          stripe_session_id: string | null
+          subtotal: number
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          currency?: string
+          customer_email?: string | null
+          customer_name?: string | null
+          id?: string
+          items: Json
+          notes?: string | null
+          status?: string
+          stripe_session_id?: string | null
+          subtotal: number
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          currency?: string
+          customer_email?: string | null
+          customer_name?: string | null
+          id?: string
+          items?: Json
+          notes?: string | null
+          status?: string
+          stripe_session_id?: string | null
+          subtotal?: number
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      products: {
+        Row: {
+          active: boolean
+          category: string
+          coverage: string | null
+          created_at: string
+          description: string
+          id: string
+          image: string
+          long_description: string | null
+          name: string
+          price: number
+          sort_order: number
+          stock: number
+          unit: string | null
+          updated_at: string
+        }
+        Insert: {
+          active?: boolean
+          category: string
+          coverage?: string | null
+          created_at?: string
+          description: string
+          id: string
+          image: string
+          long_description?: string | null
+          name: string
+          price: number
+          sort_order?: number
+          stock?: number
+          unit?: string | null
+          updated_at?: string
+        }
+        Update: {
+          active?: boolean
+          category?: string
+          coverage?: string | null
+          created_at?: string
+          description?: string
+          id?: string
+          image?: string
+          long_description?: string | null
+          name?: string
+          price?: number
+          sort_order?: number
+          stock?: number
+          unit?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      profiles: {
+        Row: {
+          created_at: string
+          email: string | null
+          full_name: string | null
+          id: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          email?: string | null
+          full_name?: string | null
+          id: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          email?: string | null
+          full_name?: string | null
+          id?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      textures: {
+        Row: {
+          active: boolean
+          created_at: string
+          description: string
+          id: string
+          name: string
+          prompt_fragment: string
+          sort_order: number
+          swatch_color: string
+        }
+        Insert: {
+          active?: boolean
+          created_at?: string
+          description: string
+          id: string
+          name: string
+          prompt_fragment: string
+          sort_order?: number
+          swatch_color: string
+        }
+        Update: {
+          active?: boolean
+          created_at?: string
+          description?: string
+          id?: string
+          name?: string
+          prompt_fragment?: string
+          sort_order?: number
+          swatch_color?: string
+        }
+        Relationships: []
+      }
+      visualization_history: {
+        Row: {
+          color_id: string | null
+          created_at: string
+          id: string
+          notes: string | null
+          texture_id: string | null
+          user_id: string
+        }
+        Insert: {
+          color_id?: string | null
+          created_at?: string
+          id?: string
+          notes?: string | null
+          texture_id?: string | null
+          user_id: string
+        }
+        Update: {
+          color_id?: string | null
+          created_at?: string
+          id?: string
+          notes?: string | null
+          texture_id?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      viz_count_current_month: { Args: { _user_id: string }; Returns: number }
     }
     Enums: {
       [_ in never]: never
