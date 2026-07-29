@@ -226,7 +226,7 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      viz_count_current_month: { Args: { _user_id: string }; Returns: number }
+      [_ in never]: never
     }
     Enums: {
       [_ in never]: never
