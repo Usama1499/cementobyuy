@@ -103,7 +103,9 @@ export const confirmCheckout = createServerFn({ method: "POST" })
     const { retrieveCheckoutSession } = await import("./stripe.server");
     const session = await retrieveCheckoutSession(data.sessionId);
     const paid = session.payment_status === "paid";
-    const newStatus = paid ? "paid" : session.status === "expired" ? "failed" : "pending";
+    // Only a confirmed payment produces a visible order. Anything else is
+    // marked cancelled so abandoned checkouts never appear in order history.
+    const newStatus = paid ? "completed" : "cancelled";
     const { data: updated, error } = await supabase
       .from("orders")
       .update({ status: newStatus })
@@ -114,3 +116,4 @@ export const confirmCheckout = createServerFn({ method: "POST" })
     if (error || !updated) throw new Error(error?.message ?? "Order not found");
     return { status: updated.status, subtotal: Number(updated.subtotal), paid };
   });
+
