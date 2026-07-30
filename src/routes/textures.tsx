@@ -1,53 +1,30 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { motion } from "motion/react";
 import { Button } from "@/components/ui/button";
 import { PageHero } from "@/components/PageHero";
-import finoTexture from "@/assets/texture-fino.jpg";
-import medioTexture from "@/assets/texture-medio.jpg";
-import charcoalTexture from "@/assets/texture-charcoal.jpg";
+import { finishes } from "@/lib/finishes";
 
 export const Route = createFileRoute("/textures")({
   head: () => ({
     meta: [
-      { title: "Micro Cement Textures & Finishes | Cemento Perth" },
+      { title: "12 Premium Micro Cement Finishes | Cemento Perth" },
       {
         name: "description",
         content:
-          "Explore Cemento's micro cement textures — Fino, Medio and tinted finishes — with guidance on where each finish works best in a Perth home.",
+          "Explore the CEMENTO range — Rame Patina, Azzurro Linea, Terra Toscana, Coccodrillo, Marmo Rosa and more. Twelve Italian-inspired micro cement finishes for Perth homes.",
       },
-      { property: "og:title", content: "Micro Cement Textures & Finishes | Cemento Perth" },
+      { property: "og:title", content: "12 Premium Micro Cement Finishes | Cemento Perth" },
       {
         property: "og:description",
         content:
-          "Fino, Medio and custom tinted micro cement finishes, with guidance on where each works best.",
+          "Twelve Italian-inspired micro cement finishes — copper patinas, brushed golds, marbles and natural concrete.",
       },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
   component: Textures,
 });
-
-const finishes = [
-  {
-    src: finoTexture,
-    name: "Microestil Fino",
-    grain: "Fine grain",
-    copy: "The smoothest finish in the range. Very subtle trowel movement, almost suede to the touch. Best on walls, ceilings, vanities and anywhere you want the surface to read as calm and continuous.",
-    best: "Walls · Ceilings · Joinery",
-  },
-  {
-    src: medioTexture,
-    name: "Microestil Medio",
-    grain: "Medium grain",
-    copy: "A tougher, more textural coat with visible movement and mottling. Its extra body makes it the right choice underfoot and in high-traffic commercial spaces.",
-    best: "Floors · Stairs · Commercial",
-  },
-  {
-    src: charcoalTexture,
-    name: "Tinted & sealed",
-    grain: "Any tone",
-    copy: "Every finish is tinted on site using MCT pigments — Blanco, Negro, Calido, Sombra, Crema and Marron — then sealed matt, satin or gloss. Bring us a colour and we'll match it.",
-    best: "Feature walls · Bespoke colour",
-  },
-];
 
 const sheens = [
   { name: "Matt", copy: "Natural, chalky and forgiving. The most popular sheen for walls." },
@@ -59,9 +36,9 @@ function Textures() {
   return (
     <>
       <PageHero
-        eyebrow="Textures"
-        title="Choose the grain, the tone and the sheen"
-        intro="Micro cement is a system, not a single product. The grain you choose changes how the surface feels, the pigment changes the tone, and the sealer decides how it lives day to day."
+        eyebrow="The CEMENTO range"
+        title="Twelve finishes. One seamless surface."
+        intro="Every finish below is hand-applied and tinted on site. The grain decides how the surface feels, the pigment decides the tone, and the sealer decides how it lives day to day."
       >
         <Button asChild variant="clay" size="lg">
           <Link to="/visualiser">Preview a finish on your room</Link>
@@ -69,26 +46,43 @@ function Textures() {
       </PageHero>
 
       <section className="container-page py-20 md:py-28">
-        <div className="grid gap-6 md:grid-cols-3">
-          {finishes.map((f) => (
-            <article key={f.name} className="surface-card overflow-hidden rounded-sm">
-              <img
-                src={f.src}
-                alt={`${f.name} micro cement texture close-up`}
-                loading="lazy"
-                width={900}
-                height={900}
-                className="aspect-square w-full object-cover"
-              />
+        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          {finishes.map((f, i) => (
+            <motion.article
+              key={f.id}
+              initial={{ opacity: 0, y: 24 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-60px" }}
+              transition={{ duration: 0.5, delay: (i % 3) * 0.08 }}
+              className="surface-card surface-card-hover group overflow-hidden rounded-sm"
+            >
+              <div className="relative overflow-hidden">
+                <img
+                  src={f.image}
+                  alt={`${f.name} — ${f.description}`}
+                  loading="lazy"
+                  width={900}
+                  height={900}
+                  className="aspect-square w-full object-cover transition-transform duration-700 group-hover:scale-105"
+                />
+                <span className="absolute left-3 top-3 rounded-full bg-background/85 px-2.5 py-1 font-display text-xs font-semibold">
+                  No. {String(f.no).padStart(2, "0")}
+                </span>
+              </div>
               <div className="p-6">
-                <p className="eyebrow text-[0.6rem]">{f.grain}</p>
-                <h2 className="mt-2 text-xl">{f.name}</h2>
-                <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{f.copy}</p>
+                <div className="flex items-center gap-2.5">
+                  <span
+                    className="h-4 w-4 shrink-0 rounded-full border border-border"
+                    style={{ backgroundColor: f.swatch }}
+                  />
+                  <h2 className="text-xl">{f.name}</h2>
+                </div>
+                <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{f.description}</p>
                 <p className="mt-5 text-xs uppercase tracking-[0.14em] text-muted-foreground">
                   {f.best}
                 </p>
               </div>
-            </article>
+            </motion.article>
           ))}
         </div>
       </section>
@@ -107,7 +101,7 @@ function Textures() {
       <section className="container-page py-20 text-center md:py-24">
         <h2 className="text-3xl md:text-4xl">Not sure which finish suits your space?</h2>
         <p className="mx-auto mt-4 max-w-xl text-muted-foreground">
-          Send us a photo and we'll recommend a grain, tone and sheen — or bring the decision
+          Send us a photo and we'll recommend a finish, tone and sheen — or bring the decision
           forward and render it yourself with the AI visualiser.
         </p>
         <div className="mt-8 flex flex-wrap justify-center gap-3">
