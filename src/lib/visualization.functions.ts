@@ -6,10 +6,7 @@ const MONTHLY_LIMIT = 10;
 
 const InputSchema = z.object({
   imageDataUrl: z.string().min(64).max(9_000_000),
-  colorId: z.string().min(1).max(64),
-  colorPrompt: z.string().min(3).max(400),
-  textureId: z.string().min(1).max(64),
-  texturePrompt: z.string().min(3).max(400),
+  finishId: z.string().min(1).max(64),
   notes: z.string().max(300).optional(),
 });
 
@@ -40,11 +37,22 @@ export const generateVisualization = createServerFn({ method: "POST" })
       );
     }
 
+    // The AI prompt is derived server-side from the selected finish so users
+    // never see or control it.
+    const { data: finish, error: finishErr } = await supabase
+      .from("textures")
+      .select("id,name,prompt_fragment")
+      .eq("id", data.finishId)
+      .eq("active", true)
+      .maybeSingle();
+    if (finishErr) throw new Error(finishErr.message);
+    if (!finish) throw new Error("That finish is no longer available.");
+
     const { mimeType, base64 } = parseDataUrl(data.imageDataUrl);
 
     const prompt = [
-      "Photorealistically re-render this exact room photo so the walls are painted and finished in",
-      `${data.colorPrompt} using ${data.texturePrompt}.`,
+      "Photorealistically re-render this exact room photo so the walls are finished in",
+      `"${finish.name}" — ${finish.prompt_fragment}.`,
       "Keep the original camera angle, perspective, room geometry, window positions, furniture, fixtures and lighting exactly as they are.",
       "Only change the wall surface material; preserve realistic reflections and shadows.",
       data.notes ? `Additional client note: ${data.notes.replace(/[\r\n]+/g, " ")}.` : "",
@@ -58,8 +66,7 @@ export const generateVisualization = createServerFn({ method: "POST" })
 
     await supabase.from("visualization_history").insert({
       user_id: userId,
-      color_id: data.colorId,
-      texture_id: data.textureId,
+      texture_id: finish.id,
       notes: data.notes ?? null,
     });
 
