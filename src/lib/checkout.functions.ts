@@ -57,11 +57,13 @@ export const createCheckout = createServerFn({ method: "POST" })
     const email = (claims as { email?: string } | undefined)?.email;
     const origin = originFromRequest();
 
+    // The order is created as a hidden "draft" and only becomes visible in the
+    // customer's order history once Stripe confirms the payment.
     const { data: order, error: insErr } = await supabase
       .from("orders")
       .insert({
         user_id: userId,
-        status: "pending",
+        status: "draft",
         subtotal,
         currency: "AUD",
         customer_email: email ?? null,
@@ -71,6 +73,7 @@ export const createCheckout = createServerFn({ method: "POST" })
       .select("id")
       .single();
     if (insErr || !order) throw new Error(insErr?.message ?? "Could not create order");
+
 
     const session = await createCheckoutSession({
       lineItems: orderItems.map((i) => ({
@@ -100,7 +103,9 @@ export const confirmCheckout = createServerFn({ method: "POST" })
     const { retrieveCheckoutSession } = await import("./stripe.server");
     const session = await retrieveCheckoutSession(data.sessionId);
     const paid = session.payment_status === "paid";
-    const newStatus = paid ? "paid" : session.status === "expired" ? "failed" : "pending";
+    // Only a confirmed payment produces a visible order. Anything else is
+    // marked cancelled so abandoned checkouts never appear in order history.
+    const newStatus = paid ? "completed" : "cancelled";
     const { data: updated, error } = await supabase
       .from("orders")
       .update({ status: newStatus })
@@ -111,3 +116,4 @@ export const confirmCheckout = createServerFn({ method: "POST" })
     if (error || !updated) throw new Error(error?.message ?? "Order not found");
     return { status: updated.status, subtotal: Number(updated.subtotal), paid };
   });
+

@@ -167,6 +167,7 @@ export type Database = {
           created_at: string
           description: string
           id: string
+          image_url: string
           name: string
           prompt_fragment: string
           sort_order: number
@@ -177,6 +178,7 @@ export type Database = {
           created_at?: string
           description: string
           id: string
+          image_url?: string
           name: string
           prompt_fragment: string
           sort_order?: number
@@ -187,6 +189,7 @@ export type Database = {
           created_at?: string
           description?: string
           id?: string
+          image_url?: string
           name?: string
           prompt_fragment?: string
           sort_order?: number

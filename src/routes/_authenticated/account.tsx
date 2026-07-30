@@ -27,6 +27,7 @@ function AccountPage() {
       const { data, error } = await supabase
         .from("orders")
         .select("id,status,subtotal,created_at,items")
+        .eq("status", "completed")
         .order("created_at", { ascending: false });
       if (error) throw error;
       return (data ?? []) as unknown as OrderRow[];
@@ -58,7 +59,7 @@ function AccountPage() {
                 <p className="font-display text-sm">Order #{o.id.slice(0, 8)}</p>
                 <p className="text-xs text-muted-foreground">{new Date(o.created_at).toLocaleString("en-AU")}</p>
               </div>
-              <span className={o.status === "paid" ? "rounded-full bg-whatsapp/10 px-3 py-1 text-xs font-medium text-whatsapp" : "rounded-full bg-secondary px-3 py-1 text-xs font-medium text-muted-foreground"}>
+              <span className={o.status === "completed" ? "rounded-full bg-whatsapp/10 px-3 py-1 text-xs font-medium text-whatsapp" : "rounded-full bg-secondary px-3 py-1 text-xs font-medium text-muted-foreground"}>
                 {o.status}
               </span>
             </header>
