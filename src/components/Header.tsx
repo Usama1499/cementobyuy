@@ -9,7 +9,9 @@ import { site } from "@/lib/site";
 const nav = [
   { to: "/services", label: "Services" },
   { to: "/textures", label: "Textures" },
+  { to: "/projects", label: "Projects" },
   { to: "/custom-designs", label: "Custom Designs" },
+
   { to: "/training", label: "DIY Training" },
   { to: "/store", label: "Shop" },
   { to: "/visualiser", label: "AI Visualiser" },
