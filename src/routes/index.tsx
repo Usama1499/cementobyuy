@@ -459,13 +459,13 @@ function Home() {
           {/* connector line */}
           <motion.div
             aria-hidden
-            className="absolute left-6 top-0 hidden w-px origin-top bg-[linear-gradient(to_bottom,var(--clay),transparent)] sm:block md:left-0 md:top-6 md:h-px md:w-full md:origin-left md:bg-[linear-gradient(to_right,var(--clay),transparent)]"
-            style={{ height: "100%" }}
+            className="absolute left-6 top-0 h-full w-0.5 origin-top rounded-full bg-clay/25 md:left-0 md:top-6 md:h-0.5 md:w-full md:origin-left"
             initial={reduce ? false : { scaleY: 0, scaleX: 0 }}
             whileInView={{ scaleY: 1, scaleX: 1 }}
             viewport={{ once: true, margin: "-100px" }}
             transition={{ duration: 1.1, ease: "easeOut" }}
           />
+
           <ol className="grid gap-10 md:grid-cols-4 md:gap-6">
             {phases.map((p, i) => (
               <Reveal key={p.n} delay={i * 0.12}>
