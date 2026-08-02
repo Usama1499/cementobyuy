@@ -14,8 +14,8 @@ import {
   ShieldCheck,
   Quote,
 } from "lucide-react";
-import { motion, useReducedMotion } from "motion/react";
-import type { ReactNode } from "react";
+import { AnimatePresence, motion, useReducedMotion } from "motion/react";
+import { useEffect, useState, type ReactNode } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Accordion,
@@ -319,115 +319,24 @@ const faqs = [
     a: "Yes. The system is sealed and suitable for showers, splashbacks and wet areas when installed over a compliant waterproof membrane — which we install as part of the works and certify on completion.",
   },
   {
-    q: "How long does a typical job take?",
-    a: "A typical bathroom is three to four days on site including curing between coats. A whole-floor pour is usually four to six days. We confirm the exact program in writing at the consultation.",
-  },
-  {
-    q: "How much does micro cement cost in Perth?",
-    a: "Pricing depends on area, substrate condition and finish, but every quote is a fixed price — planned and locked in on the day of the consultation, with no variations unless you change the scope.",
-  },
-  {
-    q: "Can you match a colour I've seen?",
-    a: "Yes. Every finish is tinted on site, so bring us a photo or a sample and we'll match it — or start from one of the twelve finishes in the CEMENTO range, from Rame Patina to Argento Seta.",
-  },
-  {
-    q: "Do you cover the work with a warranty?",
-    a: "All installations are backed by our workmanship guarantee, alongside the manufacturer warranty on the Microestil material system. Care instructions and warranty paperwork are handed over at sign-off.",
-  },
-  {
-    q: "Will it crack or chip over time?",
-    a: "Micro cement is fibre-reinforced and flexible. Provided the substrate is sound and expansion joints are respected — both checked before we start — it resists cracking, chipping and impact far better than tile grout.",
-  },
-  {
-    q: "How do I clean and maintain the surface?",
-    a: "Warm water and a pH-neutral cleaner. No acidic or abrasive products. Floors in high-traffic areas benefit from a fresh coat of sealer every five to seven years, which we can quote on request.",
+    q: "How much does micro cement cost, and how long does it take?",
+    a: "Pricing depends on area, substrate and finish, but every quote is a fixed price locked in on the day of consultation. A typical bathroom takes three to four days on site; a whole-floor pour, four to six.",
   },
   {
     q: "Which areas of Perth do you service?",
     a: "The full Perth metro area from our Malaga warehouse — north to Yanchep, south to Mandurah and east to the Hills. Regional WA projects are considered case by case.",
   },
-  {
-    q: "Can I buy the materials and do it myself?",
-    a: "Absolutely. We stock the full trade range at 17 Irvine Street, Malaga, and run hands-on DIY training workshops so you learn the trowel technique before you start your own project.",
-  },
 ];
+
 
 function Home() {
   const reduce = useReducedMotion();
   const marquee = [...finishes, ...finishes];
-  const featured = projects.slice(0, 6);
+  const featured = projects.slice(0, 3);
 
   return (
     <>
-      {/* HERO */}
-      <section className="relative isolate overflow-hidden">
-        <motion.img
-          src={siteImages.banner}
-          alt="Cemento tradesman polishing a seamless micro cement benchtop in Perth"
-          className="absolute inset-0 -z-20 h-full w-full object-cover"
-          initial={reduce ? false : { scale: 1.12 }}
-          animate={{ scale: 1 }}
-          transition={{ duration: 1.8, ease: [0.22, 1, 0.36, 1] }}
-        />
-        <div className="absolute inset-0 -z-10 bg-ink/65" />
-        <div className="absolute inset-0 -z-10 bg-[image:var(--gradient-veil)]" />
-        <div className="container-page flex min-h-[80vh] flex-col justify-end py-20 md:min-h-[88vh] md:py-28">
-          <motion.p
-            className="eyebrow text-clay-foreground/70"
-            initial={reduce ? false : { opacity: 0, y: 14 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-          >
-            Perth · Western Australia
-          </motion.p>
-          <motion.h1
-            className="mt-4 max-w-4xl text-4xl leading-[1.03] text-ink-foreground md:text-7xl"
-            initial={reduce ? false : { opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.08 }}
-          >
-            Perth's best micro cement
-          </motion.h1>
-          <motion.p
-            className="mt-6 max-w-xl text-base leading-relaxed text-ink-foreground/85 md:text-lg"
-            initial={reduce ? false : { opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.16 }}
-          >
-            Seamless, joint-free surfaces for walls, floors, benchtops and wet areas — designed,
-            installed and guaranteed by our own trades, at a price fixed on the day.
-          </motion.p>
-          <motion.div
-            className="mt-9 flex flex-wrap gap-3"
-            initial={reduce ? false : { opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.24 }}
-          >
-            <Button asChild variant="clay" size="lg">
-              <Link to="/contact">Get a free quote</Link>
-            </Button>
-            <Button asChild variant="hero" size="lg">
-              <Link to="/projects">View our projects</Link>
-            </Button>
-          </motion.div>
-
-          <motion.dl
-            className="mt-14 grid max-w-2xl grid-cols-2 gap-6 border-t border-ink-foreground/15 pt-8 sm:grid-cols-4"
-            initial={reduce ? false : { opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.8, delay: 0.36 }}
-          >
-            {stats.map((s) => (
-              <div key={s.label}>
-                <dt className="font-display text-3xl font-bold text-ink-foreground">{s.value}</dt>
-                <dd className="mt-1 text-xs uppercase tracking-[0.14em] text-ink-foreground/70">
-                  {s.label}
-                </dd>
-              </div>
-            ))}
-          </motion.dl>
-        </div>
-      </section>
+      <HeroSlider />
 
       {/* FINISH MARQUEE */}
       <section className="overflow-hidden border-b border-border bg-secondary/40 py-8">
@@ -510,71 +419,76 @@ function Home() {
       </section>
 
       {/* WHY */}
-      <section className="border-y border-border bg-secondary/60">
-        <div className="container-page grid gap-12 py-20 md:grid-cols-2 md:py-28">
-          <Reveal>
+      <section className="relative border-y border-border bg-secondary/60">
+        <div className="container-page py-20 md:py-28">
+          <Reveal className="max-w-2xl">
             <p className="eyebrow">Why Cemento</p>
             <h2 className="mt-3 text-3xl md:text-4xl">Why choose Cemento?</h2>
-            <p className="mt-5 max-w-md text-muted-foreground">
+            <p className="mt-5 text-muted-foreground">
               We've built our reputation on finishing what we quote — on time, on budget and to a
               standard that holds up years later.
             </p>
-            <p className="mt-6 inline-flex items-center gap-2 rounded-full bg-background px-4 py-2 text-xs font-medium uppercase tracking-[0.14em] text-muted-foreground">
-              <ShieldCheck className="h-4 w-4 text-clay" /> WASPA & HBA members
+            <p className="mt-6 inline-flex items-center gap-2 rounded-full border border-border bg-background px-4 py-2 text-xs font-medium uppercase tracking-[0.14em] text-muted-foreground">
+              <ShieldCheck className="h-4 w-4 text-clay" /> WASPA &amp; HBA members
             </p>
-            <img
-              src={siteImages.trades}
-              alt="The Cemento trade team in Perth"
-              loading="lazy"
-              decoding="async"
-              className="mt-8 aspect-16/9 w-full rounded-sm object-cover"
-            />
           </Reveal>
-          <dl className="grid gap-8 sm:grid-cols-2">
+
+          <div className="mt-14 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
             {reasons.map((r, i) => (
-              <Reveal key={r.title} delay={i * 0.06}>
-                <dt className="font-display text-base font-semibold">{r.title}</dt>
-                <dd className="mt-2 text-sm leading-relaxed text-muted-foreground">{r.copy}</dd>
+              <Reveal key={r.title} delay={i * 0.08} className="h-full">
+                <article className="surface-card surface-card-hover group relative flex h-full flex-col overflow-hidden rounded-sm p-7">
+                  <span className="font-display text-4xl font-bold text-clay/25 transition-colors duration-500 group-hover:text-clay/50">
+                    0{i + 1}
+                  </span>
+                  <h3 className="mt-4 font-display text-base font-semibold">{r.title}</h3>
+                  <p className="mt-3 flex-1 text-sm leading-relaxed text-muted-foreground">
+                    {r.copy}
+                  </p>
+                  <span
+                    aria-hidden
+                    className="absolute inset-x-0 bottom-0 h-0.5 origin-left scale-x-0 bg-clay transition-transform duration-500 group-hover:scale-x-100"
+                  />
+                </article>
               </Reveal>
             ))}
-          </dl>
+          </div>
         </div>
       </section>
 
       {/* PROCESS TIMELINE */}
-      <section className="container-page py-20 md:py-28">
-        <Reveal>
-          <p className="eyebrow">Process</p>
-          <h2 className="mt-3 text-3xl md:text-4xl">Phases of our works</h2>
-          <p className="mt-5 max-w-xl text-muted-foreground">
-            Four clear stages from first phone call to final walkthrough — you always know what
-            happens next.
-          </p>
-        </Reveal>
+      <section className="relative overflow-hidden bg-[image:var(--gradient-sand)] py-20 md:py-28">
+        <div className="container-page">
+          <Reveal className="max-w-xl">
+            <p className="eyebrow">Process</p>
+            <h2 className="mt-3 text-3xl md:text-4xl">Phases of our works</h2>
+            <p className="mt-5 text-muted-foreground">
+              Four clear stages from first phone call to final walkthrough — you always know what
+              happens next.
+            </p>
+          </Reveal>
 
-        <div className="relative mt-16">
-          {/* connector line */}
-          <motion.div
-            aria-hidden
-            className="absolute left-6 top-0 h-full w-0.5 origin-top rounded-full bg-clay/25 md:left-0 md:top-6 md:h-0.5 md:w-full md:origin-left"
-            initial={reduce ? false : { scaleY: 0, scaleX: 0 }}
-            whileInView={{ scaleY: 1, scaleX: 1 }}
-            viewport={{ once: true, margin: "-100px" }}
-            transition={{ duration: 1.1, ease: "easeOut" }}
-          />
-
-          <ol className="grid gap-10 md:grid-cols-4 md:gap-6">
+          <ol className="mt-16 grid gap-8 md:grid-cols-4 md:gap-4">
             {phases.map((p, i) => (
-              <Reveal key={p.n} delay={i * 0.12}>
-                <li className="relative pl-20 sm:pl-20 md:pl-0 md:pt-20">
-                  <span className="absolute left-0 top-0 flex h-12 w-12 items-center justify-center rounded-full border border-clay/40 bg-background text-clay shadow-[0_0_0_6px_var(--background)]">
-                    <p.icon className="h-5 w-5" />
-                  </span>
-                  <span className="font-display text-sm font-bold uppercase tracking-[0.2em] text-clay">
-                    Step {p.n}
-                  </span>
-                  <h3 className="mt-2 text-lg">{p.title}</h3>
-                  <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{p.copy}</p>
+              <Reveal key={p.n} delay={i * 0.12} className="h-full">
+                <li className="relative h-full">
+                  {i < phases.length - 1 && (
+                    <span
+                      aria-hidden
+                      className="absolute left-1/2 top-full z-0 flex h-8 -translate-x-1/2 items-center justify-center text-clay/50 md:left-full md:top-1/2 md:h-auto md:w-4 md:-translate-x-1/2 md:-translate-y-1/2"
+                    >
+                      <ArrowRight className="h-5 w-5 rotate-90 md:rotate-0" />
+                    </span>
+                  )}
+                  <article className="relative z-10 flex h-full flex-col rounded-sm border border-border bg-background p-7 shadow-[var(--shadow-soft)] transition-transform duration-500 hover:-translate-y-1.5">
+                    <span className="flex h-14 w-14 items-center justify-center rounded-sm bg-clay text-clay-foreground shadow-[var(--shadow-soft)]">
+                      <p.icon className="h-6 w-6" />
+                    </span>
+                    <span className="mt-6 font-display text-xs font-bold uppercase tracking-[0.24em] text-clay">
+                      Step {p.n}
+                    </span>
+                    <h3 className="mt-2 text-lg">{p.title}</h3>
+                    <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{p.copy}</p>
+                  </article>
                 </li>
               </Reveal>
             ))}
@@ -671,27 +585,25 @@ function Home() {
             </Link>
           </div>
         </Reveal>
-        <div className="mt-12 columns-1 gap-5 sm:columns-2 lg:columns-3 [&>*]:mb-5">
+        <div className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {featured.map((p, i) => (
-            <Reveal key={p.id} delay={(i % 3) * 0.08}>
-              <figure className="surface-card group break-inside-avoid overflow-hidden rounded-sm">
+            <Reveal key={p.id} delay={i * 0.08} className="h-full">
+              <figure className="surface-card group flex h-full flex-col overflow-hidden rounded-sm">
                 <div className="relative overflow-hidden">
                   <img
                     src={p.image}
                     alt={`${p.title} — micro cement project in ${p.location}`}
                     loading="lazy"
                     decoding="async"
-                    className={`w-full object-cover transition-transform duration-[900ms] group-hover:scale-[1.06] ${
-                      p.tall ? "aspect-3/4" : "aspect-4/3"
-                    }`}
+                    className="aspect-4/3 w-full object-cover transition-transform duration-[900ms] group-hover:scale-[1.06]"
                   />
                   <span className="absolute left-3 top-3 rounded-full bg-background/85 px-3 py-1 text-[0.7rem] font-medium uppercase tracking-[0.12em] text-foreground backdrop-blur">
                     {p.category}
                   </span>
                 </div>
-                <figcaption className="p-5">
+                <figcaption className="flex flex-1 flex-col p-5">
                   <h3 className="text-base leading-snug">{p.title}</h3>
-                  <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+                  <p className="mt-2 flex-1 text-sm leading-relaxed text-muted-foreground">
                     {p.description}
                   </p>
                   <p className="mt-4 inline-flex items-center gap-1.5 text-xs uppercase tracking-[0.12em] text-muted-foreground">
@@ -702,6 +614,13 @@ function Home() {
             </Reveal>
           ))}
         </div>
+        <Reveal className="mt-12 flex justify-center">
+          <Button asChild variant="clay" size="lg">
+            <Link to="/projects">
+              View more projects <ArrowRight className="h-4 w-4" />
+            </Link>
+          </Button>
+        </Reveal>
       </section>
 
       {/* TESTIMONIALS */}
