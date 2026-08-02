@@ -169,8 +169,8 @@ function HeroSlider() {
           />
         </AnimatePresence>
       </div>
-      <div className="absolute inset-0 -z-10 bg-ink/45" />
-      <div className="absolute inset-0 -z-10 bg-[image:var(--gradient-veil)] opacity-70" />
+      <div className="absolute inset-0 -z-10 bg-ink/35" />
+      <div className="absolute inset-0 -z-10 bg-gradient-to-t from-ink/90 via-ink/40 to-transparent" />
 
       <div className="container-page flex min-h-[78vh] flex-col justify-end py-20 md:min-h-[86vh] md:py-28">
         <motion.p
