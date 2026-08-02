@@ -1,8 +1,10 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Button } from "@/components/ui/button";
 import { PageHero } from "@/components/PageHero";
-import customImage from "@/assets/custom-designs.jpg";
-import bathroomImage from "@/assets/bathroom.jpg";
+import { siteImages } from "@/lib/projects";
+
+const customImage = siteImages.customDesignsHero;
+const bathroomImage = siteImages.cementoWork;
 
 export const Route = createFileRoute("/custom-designs")({
   head: () => ({
