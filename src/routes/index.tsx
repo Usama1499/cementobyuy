@@ -127,12 +127,109 @@ const services = [
   },
 ] as const;
 
-const stats = [
-  { value: "12", label: "Premium finishes" },
-  { value: "2mm", label: "Total build-up" },
-  { value: "0", label: "Grout lines" },
-  { value: "10yr", label: "Workmanship focus" },
-];
+const slides = [
+  {
+    image: siteImages.slide1,
+    alt: "Cemento tradesman finishing a micro cement benchtop in a modern Perth kitchen",
+  },
+  {
+    image: siteImages.slide2,
+    alt: "Curved micro cement staircase and indoor pool in a minimalist Perth home",
+  },
+  {
+    image: siteImages.slide3,
+    alt: "Cemento branded feature wall in a micro cement finished interior",
+  },
+] as const;
+
+/** Auto-advancing hero slider — 5s per slide, paused for reduced-motion users. */
+function HeroSlider() {
+  const reduce = useReducedMotion();
+  const [index, setIndex] = useState(0);
+
+  useEffect(() => {
+    if (reduce) return;
+    const id = window.setInterval(() => setIndex((i) => (i + 1) % slides.length), 5000);
+    return () => window.clearInterval(id);
+  }, [reduce]);
+
+  return (
+    <section className="relative isolate overflow-hidden">
+      <div className="absolute inset-0 -z-20">
+        <AnimatePresence initial={false}>
+          <motion.img
+            key={index}
+            src={slides[index].image}
+            alt={slides[index].alt}
+            className="absolute inset-0 h-full w-full object-cover brightness-115"
+            initial={reduce ? false : { opacity: 0, scale: 1.08 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ opacity: { duration: 1 }, scale: { duration: 6, ease: "linear" } }}
+          />
+        </AnimatePresence>
+      </div>
+      <div className="absolute inset-0 -z-10 bg-ink/45" />
+      <div className="absolute inset-0 -z-10 bg-[image:var(--gradient-veil)] opacity-70" />
+
+      <div className="container-page flex min-h-[78vh] flex-col justify-end py-20 md:min-h-[86vh] md:py-28">
+        <motion.p
+          className="eyebrow text-ink-foreground/75"
+          initial={reduce ? false : { opacity: 0, y: 14 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+        >
+          Perth · Western Australia
+        </motion.p>
+        <motion.h1
+          className="mt-4 max-w-4xl text-4xl leading-[1.03] text-ink-foreground drop-shadow-[0_2px_18px_rgba(0,0,0,0.45)] md:text-7xl"
+          initial={reduce ? false : { opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.7, delay: 0.08 }}
+        >
+          Perth's best micro cement
+        </motion.h1>
+        <motion.p
+          className="mt-6 max-w-xl text-base leading-relaxed text-ink-foreground/90 drop-shadow-[0_1px_10px_rgba(0,0,0,0.5)] md:text-lg"
+          initial={reduce ? false : { opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.7, delay: 0.16 }}
+        >
+          Seamless, joint-free surfaces for walls, floors, benchtops and wet areas — designed,
+          installed and guaranteed by our own trades, at a price fixed on the day.
+        </motion.p>
+        <motion.div
+          className="mt-9 flex flex-wrap gap-3"
+          initial={reduce ? false : { opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.7, delay: 0.24 }}
+        >
+          <Button asChild variant="clay" size="lg">
+            <Link to="/contact">Get a free quote</Link>
+          </Button>
+          <Button asChild variant="hero" size="lg">
+            <Link to="/projects">View our projects</Link>
+          </Button>
+        </motion.div>
+
+        <div className="mt-12 flex gap-2">
+          {slides.map((s, i) => (
+            <button
+              key={s.image}
+              type="button"
+              aria-label={`Show slide ${i + 1}`}
+              aria-current={i === index}
+              onClick={() => setIndex(i)}
+              className={`h-1 rounded-full transition-all duration-500 ${
+                i === index ? "w-12 bg-ink-foreground" : "w-6 bg-ink-foreground/40"
+              }`}
+            />
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
 
 const reasons = [
   {
