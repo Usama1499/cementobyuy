@@ -7,6 +7,14 @@ import diyTraining from "@/assets/site/cemento_diy_training.jpg.asset.json";
 import materials from "@/assets/site/cemento_materials.jpg.asset.json";
 import trades from "@/assets/site/trades.webp.asset.json";
 import forbes from "@/assets/site/forbes-apartments-11-scaled.jpg.asset.json";
+import logo from "@/assets/site/cemento_logo-2.png.asset.json";
+import slide1 from "@/assets/site/cemento_front_banner_slide_1.png.asset.json";
+import slide2 from "@/assets/site/cemento_projects_slide_2.png.asset.json";
+import slide3 from "@/assets/site/slide_3.png.asset.json";
+import cementoWork from "@/assets/site/cemento_work.png.asset.json";
+import customDesignsHero from "@/assets/site/cemento_custom_designs.jpg.asset.json";
+import saunders from "@/assets/site/17-saunders-street-mosman-park.jpg.asset.json";
+import applications from "@/assets/site/wokking_image.png.asset.json";
 import bathroom from "@/assets/bathroom.jpg";
 import customDesigns from "@/assets/custom-designs.jpg";
 import training from "@/assets/training.jpg";
@@ -22,6 +30,14 @@ export const siteImages = {
   materials: materials.url,
   trades: trades.url,
   forbes: forbes.url,
+  logo: logo.url,
+  slide1: slide1.url,
+  slide2: slide2.url,
+  slide3: slide3.url,
+  cementoWork: cementoWork.url,
+  customDesignsHero: customDesignsHero.url,
+  saunders: saunders.url,
+  applicationsGrid: applications.url,
   bathroom,
   customDesigns,
   training,
@@ -149,5 +165,33 @@ export const projects: Project[] = [
     category: "Floors",
     location: "Nedlands",
     image: siteImages.training,
+  },
+  {
+    id: "cave-spa-suite",
+    title: "Cave-form spa suite",
+    description:
+      "A sculpted cave-like bathing suite in seamless white micro cement, with an integrated stone spa and a full-height sea view opening.",
+    category: "Bathrooms",
+    location: "North Coogee",
+    image: siteImages.cementoWork,
+    tall: true,
+  },
+  {
+    id: "saunders-street-villa",
+    title: "Saunders Street villa façade",
+    description:
+      "A Mediterranean-style residence rendered and finished in textured exterior micro cement, from parapets to portico columns.",
+    category: "Exterior",
+    location: "Mosman Park",
+    image: siteImages.saunders,
+  },
+  {
+    id: "spiral-stair-feature",
+    title: "Spiral stair & stone feature wall",
+    description:
+      "A hand-formed spiral stair coated in smooth micro cement, set against a textured feature wall in the same tonal family.",
+    category: "Custom designs",
+    location: "Peppermint Grove",
+    image: siteImages.customDesignsHero,
   },
 ];

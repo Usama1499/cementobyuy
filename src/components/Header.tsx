@@ -1,17 +1,26 @@
 import { Link } from "@tanstack/react-router";
-import { LogIn, Menu, Phone, ShoppingBag, User, X } from "lucide-react";
+import { ChevronDown, LogIn, Menu, Phone, ShoppingBag, User, X } from "lucide-react";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import { useCart } from "@/lib/cart";
 import { useAuth } from "@/lib/auth";
 import { site } from "@/lib/site";
+import { siteImages } from "@/lib/projects";
+
+const textureMenu = [
+  { to: "/textures", label: "Textures & finishes" },
+  { to: "/custom-designs", label: "Custom Designs" },
+] as const;
 
 const nav = [
   { to: "/services", label: "Services" },
-  { to: "/textures", label: "Textures" },
   { to: "/projects", label: "Projects" },
-  { to: "/custom-designs", label: "Custom Designs" },
-
   { to: "/training", label: "DIY Training" },
   { to: "/store", label: "Shop" },
   { to: "/visualiser", label: "AI Visualiser" },
@@ -25,13 +34,45 @@ export function Header() {
   return (
     <header className="sticky top-0 z-40 border-b border-border bg-background/85 backdrop-blur-md">
       <div className="container-page flex h-16 items-center justify-between gap-4 lg:h-20">
-        <Link to="/" className="flex items-baseline gap-2" onClick={() => setOpen(false)}>
-          <span className="font-display text-xl font-bold uppercase tracking-[0.32em] text-foreground">Cemento</span>
+        <Link to="/" className="flex shrink-0 items-center" onClick={() => setOpen(false)}>
+          <img
+            src={siteImages.logo}
+            alt="Cemento — the art of microcement"
+            width={320}
+            height={80}
+            className="h-9 w-auto object-contain lg:h-12"
+          />
         </Link>
 
         <nav className="hidden items-center gap-7 lg:flex">
-          {nav.map((item) => (
-            <Link key={item.to} to={item.to} className="text-sm text-muted-foreground transition-colors hover:text-foreground" activeProps={{ className: "text-foreground font-medium" }}>
+          <Link
+            to="/services"
+            className="text-sm text-muted-foreground transition-colors hover:text-foreground"
+            activeProps={{ className: "text-foreground font-medium" }}
+          >
+            Services
+          </Link>
+
+          <DropdownMenu>
+            <DropdownMenuTrigger className="flex items-center gap-1 text-sm text-muted-foreground outline-none transition-colors hover:text-foreground data-[state=open]:text-foreground">
+              Texture <ChevronDown className="h-3.5 w-3.5" />
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="start" className="w-56">
+              {textureMenu.map((item) => (
+                <DropdownMenuItem key={item.to} asChild>
+                  <Link to={item.to}>{item.label}</Link>
+                </DropdownMenuItem>
+              ))}
+            </DropdownMenuContent>
+          </DropdownMenu>
+
+          {nav.slice(1).map((item) => (
+            <Link
+              key={item.to}
+              to={item.to}
+              className="text-sm text-muted-foreground transition-colors hover:text-foreground"
+              activeProps={{ className: "text-foreground font-medium" }}
+            >
               {item.label}
             </Link>
           ))}
@@ -72,8 +113,17 @@ export function Header() {
       {open && (
         <div className="border-t border-border bg-background lg:hidden">
           <nav className="container-page flex flex-col py-2">
-            {nav.map((item) => (
-              <Link key={item.to} to={item.to} onClick={() => setOpen(false)} className="border-b border-border/60 py-3 text-sm text-foreground last:border-0">
+            <Link to="/services" onClick={() => setOpen(false)} className="border-b border-border/60 py-3 text-sm text-foreground">
+              Services
+            </Link>
+            <p className="pt-3 text-xs font-medium uppercase tracking-[0.16em] text-muted-foreground">Texture</p>
+            {textureMenu.map((item) => (
+              <Link key={item.to} to={item.to} onClick={() => setOpen(false)} className="border-b border-border/60 py-3 pl-3 text-sm text-foreground">
+                {item.label}
+              </Link>
+            ))}
+            {nav.slice(1).map((item) => (
+              <Link key={item.to} to={item.to} onClick={() => setOpen(false)} className="border-b border-border/60 py-3 text-sm text-foreground">
                 {item.label}
               </Link>
             ))}

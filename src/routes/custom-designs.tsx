@@ -1,8 +1,10 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Button } from "@/components/ui/button";
 import { PageHero } from "@/components/PageHero";
-import customImage from "@/assets/custom-designs.jpg";
-import bathroomImage from "@/assets/bathroom.jpg";
+import { siteImages } from "@/lib/projects";
+
+const customImage = siteImages.customDesignsHero;
+const bathroomImage = siteImages.cementoWork;
 
 export const Route = createFileRoute("/custom-designs")({
   head: () => ({
@@ -58,9 +60,14 @@ function CustomDesigns() {
         eyebrow="Custom designs"
         title="Moulds, smooth finishes and custom designs"
         intro="Micro cement is applied by hand, which means it can follow any shape you can build. We form, render and finish bespoke elements so they read as one continuous piece with the rest of your space."
+        image={siteImages.customDesignsHero}
+        imageAlt="Sculpted white micro cement spiral staircase beside a textured stone feature wall"
       >
         <Button asChild variant="clay" size="lg">
           <Link to="/contact">Discuss your design</Link>
+        </Button>
+        <Button asChild variant="hero" size="lg">
+          <Link to="/projects">See custom work</Link>
         </Button>
       </PageHero>
 
