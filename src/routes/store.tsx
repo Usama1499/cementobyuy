@@ -97,7 +97,7 @@ function Store() {
         </div>
 
         <p className="mt-6 text-sm text-muted-foreground">
-          Showing {visible.length} of {products.length} products. Prices include GST.
+          Showing {visible.length} of {shopProducts.length} products. Prices include GST.
         </p>
 
         {visible.length === 0 ? (
