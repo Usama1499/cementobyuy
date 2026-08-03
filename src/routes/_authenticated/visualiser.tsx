@@ -40,10 +40,17 @@ interface Finish {
   image_url: string;
 }
 
+interface Colour {
+  id: string;
+  name: string;
+  hex: string;
+}
+
 function VisualiserPage() {
   const fileRef = useRef<HTMLInputElement>(null);
   const [photo, setPhoto] = useState<string | null>(null);
   const [finishId, setFinishId] = useState<string>("");
+  const [colorId, setColorId] = useState<string>("");
   const [notes, setNotes] = useState("");
   const [result, setResult] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -63,14 +70,34 @@ function VisualiserPage() {
     },
   });
 
+  const colours = useQuery({
+    queryKey: ["visualiser-colours"],
+    queryFn: async () => {
+      const { data, error: err } = await supabase
+        .from("colors")
+        .select("id,name,hex")
+        .order("sort_order");
+      if (err) throw err;
+      return (data ?? []) as Colour[];
+    },
+  });
+
   const quota = useQuery({ queryKey: ["visualiser-quota"], queryFn: () => quotaFn() });
 
   const selected = catalog.data?.find((f) => f.id === finishId);
+  const selectedColour = colours.data?.find((c) => c.id === colorId);
 
   const mutation = useMutation({
     mutationFn: async () => {
       if (!photo || !finishId) throw new Error("Upload a photo and choose a finish.");
-      return generate({ data: { imageDataUrl: photo, finishId, notes: notes || undefined } });
+      return generate({
+        data: {
+          imageDataUrl: photo,
+          finishId,
+          colorId: colorId || undefined,
+          notes: notes || undefined,
+        },
+      });
     },
     onSuccess: (r) => {
       setResult(r.dataUrl);
@@ -205,6 +232,55 @@ function VisualiserPage() {
                 </motion.p>
               )}
 
+            </div>
+
+            <div className="surface-card rounded-sm p-6">
+              <p className="eyebrow text-[0.6rem]">Step 3</p>
+              <p className="mt-2 font-display text-base">Choose your colour</p>
+              <p className="mt-1 text-xs text-muted-foreground">
+                The full MCT tint range — pick any colour to pair with your texture.
+              </p>
+
+              {colours.isLoading ? (
+                <div className="mt-4 grid grid-cols-4 gap-2.5">
+                  {Array.from({ length: 16 }).map((_, i) => (
+                    <div key={i} className="aspect-square animate-pulse rounded-sm bg-secondary" />
+                  ))}
+                </div>
+              ) : (
+                <div className="mt-4 grid grid-cols-4 gap-2.5">
+                  {colours.data?.map((c) => (
+                    <button
+                      key={c.id}
+                      type="button"
+                      title={c.name}
+                      aria-label={c.name}
+                      aria-pressed={colorId === c.id}
+                      onClick={() => setColorId(colorId === c.id ? "" : c.id)}
+                      className={cn(
+                        "relative aspect-square overflow-hidden rounded-sm border border-border/60 transition-all duration-300",
+                        colorId === c.id
+                          ? "ring-2 ring-clay ring-offset-2 ring-offset-background"
+                          : "hover:scale-105",
+                      )}
+                      style={{ backgroundColor: c.hex }}
+                    >
+                      {colorId === c.id && (
+                        <span className="absolute inset-0 flex items-center justify-center">
+                          <Check className="h-4 w-4 text-ink-foreground drop-shadow-[0_1px_3px_rgba(0,0,0,0.9)]" />
+                        </span>
+                      )}
+                    </button>
+                  ))}
+                </div>
+              )}
+
+              {selectedColour && (
+                <p className="mt-4 rounded-sm bg-secondary/60 p-3 text-xs text-muted-foreground">
+                  Colour: <span className="font-semibold text-foreground">{selectedColour.name}</span>
+                </p>
+              )}
+
               <Label htmlFor="notes" className="mt-6 block">
                 Optional notes
               </Label>
@@ -248,7 +324,7 @@ function VisualiserPage() {
                   </figure>
                   <figure className="surface-card overflow-hidden rounded-sm">
                     <figcaption className="border-b border-border bg-clay/10 px-4 py-2 text-xs uppercase tracking-widest text-clay">
-                      {selected?.name ?? "Rendered"}
+                      {[selected?.name, selectedColour?.name].filter(Boolean).join(" · ") || "Rendered"}
                     </figcaption>
                     <img src={result} alt="Rendered room" className="w-full object-cover" />
                   </figure>
