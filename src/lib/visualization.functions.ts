@@ -7,6 +7,7 @@ const MONTHLY_LIMIT = 10;
 const InputSchema = z.object({
   imageDataUrl: z.string().min(64).max(9_000_000),
   finishId: z.string().min(1).max(64),
+  colorId: z.string().min(1).max(64).optional(),
   notes: z.string().max(300).optional(),
 });
 
@@ -48,11 +49,27 @@ export const generateVisualization = createServerFn({ method: "POST" })
     if (finishErr) throw new Error(finishErr.message);
     if (!finish) throw new Error("That finish is no longer available.");
 
+    let colour: { id: string; name: string; prompt_fragment: string } | null = null;
+    if (data.colorId) {
+      const { data: row, error: colErr } = await supabase
+        .from("colors")
+        .select("id,name,prompt_fragment")
+        .eq("id", data.colorId)
+        .eq("active", true)
+        .maybeSingle();
+      if (colErr) throw new Error(colErr.message);
+      if (!row) throw new Error("That colour is no longer available.");
+      colour = row;
+    }
+
     const { mimeType, base64 } = parseDataUrl(data.imageDataUrl);
 
     const prompt = [
       "Photorealistically re-render this exact room photo so the walls are finished in",
       `"${finish.name}" — ${finish.prompt_fragment}.`,
+      colour
+        ? `Tint the finish in the colour "${colour.name}" — ${colour.prompt_fragment}. The colour must clearly read as this tone across the walls while the texture stays true to the chosen finish.`
+        : "",
       "Keep the original camera angle, perspective, room geometry, window positions, furniture, fixtures and lighting exactly as they are.",
       "Only change the wall surface material; preserve realistic reflections and shadows.",
       data.notes ? `Additional client note: ${data.notes.replace(/[\r\n]+/g, " ")}.` : "",
@@ -67,6 +84,7 @@ export const generateVisualization = createServerFn({ method: "POST" })
     await supabase.from("visualization_history").insert({
       user_id: userId,
       texture_id: finish.id,
+      color_id: colour?.id ?? null,
       notes: data.notes ?? null,
     });
 
