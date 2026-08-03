@@ -1,4 +1,12 @@
-export type ProductCategory = "Micro cement" | "Primers & sealers" | "Pigments" | "Accessories";
+export type ProductCategory =
+  | "Micro cement"
+  | "Primers & sealers"
+  | "Pigments"
+  | "Accessories"
+  | "Training";
+
+/** Bookable DIY training place — sold through the same cart & Stripe checkout. */
+export const TRAINING_PRODUCT_ID = "training-diy-workshop";
 
 export interface Product {
   id: string;
@@ -228,7 +236,19 @@ export const products: Product[] = [
     image: j("00025162_da525eda8c75483db41f48593bf6cb02.jpg"),
     description: "Larger syringe for dosing pigment into full batches.",
   },
+  {
+    id: TRAINING_PRODUCT_ID,
+    name: "DIY Micro Cement Training — 22 August 2026",
+    price: 770,
+    category: "Training",
+    image: j("m520_microestil_plus_base_25kg_954b830b2aa43c9da28f4d9cc6aff1b1.png"),
+    description:
+      "Full-day hands-on workshop at our Malaga warehouse. All materials, tools and lunch included.",
+  },
 ];
+
+/** Everything that appears in the materials shop grid (training is booked on its own page). */
+export const shopProducts = products.filter((p) => p.category !== "Training");
 
 export const categories: ProductCategory[] = [
   "Micro cement",

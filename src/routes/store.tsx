@@ -7,7 +7,7 @@ import { PageHero } from "@/components/PageHero";
 import { siteImages } from "@/lib/projects";
 import { ProductCard } from "@/components/ProductCard";
 import { useCart } from "@/lib/cart";
-import { categories, products, type ProductCategory } from "@/lib/products";
+import { categories, shopProducts, type ProductCategory } from "@/lib/products";
 import { site } from "@/lib/site";
 
 export const Route = createFileRoute("/store")({
@@ -39,7 +39,7 @@ function Store() {
 
   const visible = useMemo(() => {
     const q = query.trim().toLowerCase();
-    return products.filter(
+    return shopProducts.filter(
       (p) =>
         (filter === "All" || p.category === filter) &&
         (q === "" ||
