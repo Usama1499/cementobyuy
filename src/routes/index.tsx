@@ -122,7 +122,7 @@ const services = [
     to: "/training",
     label: "DIY training",
     icon: GraduationCap,
-    image: siteImages.diyTraining,
+    image: siteImages.stephin,
     copy: "Hands-on workshops so you can apply micro cement yourself, properly.",
   },
 ] as const;
@@ -139,6 +139,10 @@ const slides = [
   {
     image: siteImages.slide3,
     alt: "Cemento branded feature wall in a micro cement finished interior",
+  },
+  {
+    image: siteImages.slide4,
+    alt: "The Cemento team beside a micro cement benchtop in the Malaga showroom",
   },
 ] as const;
 
@@ -161,16 +165,16 @@ function HeroSlider() {
             key={index}
             src={slides[index].image}
             alt={slides[index].alt}
-            className="absolute inset-0 h-full w-full object-cover brightness-115"
+            className="absolute inset-0 h-full w-full object-cover brightness-125 contrast-105 saturate-105"
             initial={reduce ? false : { opacity: 0, scale: 1.08 }}
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ opacity: { duration: 1 }, scale: { duration: 6, ease: "linear" } }}
+            transition={{ opacity: { duration: 1.2, ease: "easeInOut" }, scale: { duration: 6.5, ease: "linear" } }}
           />
         </AnimatePresence>
       </div>
-      <div className="absolute inset-0 -z-10 bg-ink/35" />
-      <div className="absolute inset-0 -z-10 bg-gradient-to-t from-ink/90 via-ink/40 to-transparent" />
+      <div className="absolute inset-0 -z-10 bg-ink/20" />
+      <div className="absolute inset-0 -z-10 bg-gradient-to-t from-ink/85 via-ink/25 to-transparent" />
 
       <div className="container-page flex min-h-[78vh] flex-col justify-end py-20 md:min-h-[86vh] md:py-28">
         <motion.p

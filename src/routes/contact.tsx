@@ -6,6 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { PageHero } from "@/components/PageHero";
+import { siteImages } from "@/lib/projects";
 import { WhatsAppIcon } from "@/components/WhatsAppIcon";
 import { site, whatsappLink } from "@/lib/site";
 
@@ -48,6 +49,8 @@ function Contact() {
         eyebrow="Contact"
         title="Let's plan your project"
         intro="Tell us what you're resurfacing and where you are. We'll arrange a consultation, plan the works and fix the price on the day."
+        image={siteImages.saunders}
+        imageAlt="Luxury Perth residence finished in Cemento micro cement"
       />
 
       <section className="container-page grid gap-12 py-14 lg:grid-cols-2 md:py-20">

@@ -6,7 +6,8 @@ import { Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useCart } from "@/lib/cart";
 import { createCheckout } from "@/lib/checkout.functions";
-import { formatPrice } from "@/lib/products";
+import { TRAINING_PRODUCT_ID, formatPrice } from "@/lib/products";
+import { bookingSummary, clearBooking, readBooking } from "@/lib/booking";
 
 export const Route = createFileRoute("/_authenticated/checkout")({
   head: () => ({
@@ -26,11 +27,17 @@ function CheckoutPage() {
 
   const mutation = useMutation({
     mutationFn: async () => {
+      const hasTraining = items.some((i) => i.product.id === TRAINING_PRODUCT_ID);
+      const booking = hasTraining ? readBooking() : null;
       return checkout({
-        data: { items: items.map((i) => ({ productId: i.product.id, quantity: i.qty })) },
+        data: {
+          items: items.map((i) => ({ productId: i.product.id, quantity: i.qty })),
+          notes: booking ? bookingSummary(booking) : undefined,
+        },
       });
     },
     onSuccess: (r) => {
+      clearBooking();
       window.location.href = r.url;
     },
   });

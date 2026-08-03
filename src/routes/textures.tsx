@@ -2,6 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { motion } from "motion/react";
 import { Button } from "@/components/ui/button";
 import { PageHero } from "@/components/PageHero";
+import { siteImages } from "@/lib/projects";
 import { finishes } from "@/lib/finishes";
 
 export const Route = createFileRoute("/textures")({
@@ -39,6 +40,8 @@ function Textures() {
         eyebrow="The CEMENTO range"
         title="Twelve finishes. One seamless surface."
         intro="Every finish below is hand-applied and tinted on site. The grain decides how the surface feels, the pigment decides the tone, and the sealer decides how it lives day to day."
+        image={siteImages.cementoWork}
+        imageAlt="Luxury micro cement interior finished in a warm natural tone"
       >
         <Button asChild variant="clay" size="lg">
           <Link to="/visualiser">Preview a finish on your room</Link>

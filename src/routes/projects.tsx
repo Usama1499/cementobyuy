@@ -36,6 +36,8 @@ function ProjectsPage() {
         eyebrow="Portfolio"
         title="Our projects"
         intro="Seamless micro cement across Perth homes, outdoor areas and commercial fit-outs — every job installed and finished by our own trades."
+        image={siteImages.projectsPano}
+        imageAlt="Curved micro cement atrium with a floating stair in a Perth home"
       >
         <Button asChild variant="clay" size="lg">
           <Link to="/contact">Start your project</Link>

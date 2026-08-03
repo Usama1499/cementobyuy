@@ -4,9 +4,10 @@ import { Search, ShoppingBag } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { PageHero } from "@/components/PageHero";
+import { siteImages } from "@/lib/projects";
 import { ProductCard } from "@/components/ProductCard";
 import { useCart } from "@/lib/cart";
-import { categories, products, type ProductCategory } from "@/lib/products";
+import { categories, shopProducts, type ProductCategory } from "@/lib/products";
 import { site } from "@/lib/site";
 
 export const Route = createFileRoute("/store")({
@@ -38,7 +39,7 @@ function Store() {
 
   const visible = useMemo(() => {
     const q = query.trim().toLowerCase();
-    return products.filter(
+    return shopProducts.filter(
       (p) =>
         (filter === "All" || p.category === filter) &&
         (q === "" ||
@@ -53,6 +54,8 @@ function Store() {
         eyebrow="Shop"
         title="Materials to purchase"
         intro={`The full Microestil system, the primers and sealers we specify, and the pigments we tint with. Order online and collect from ${site.address}.`}
+        image={siteImages.materials}
+        imageAlt="Cemento Microestil product range and colour sample book"
       >
         <Button asChild variant="clay" size="lg">
           <Link to="/cart">
@@ -94,7 +97,7 @@ function Store() {
         </div>
 
         <p className="mt-6 text-sm text-muted-foreground">
-          Showing {visible.length} of {products.length} products. Prices include GST.
+          Showing {visible.length} of {shopProducts.length} products. Prices include GST.
         </p>
 
         {visible.length === 0 ? (
