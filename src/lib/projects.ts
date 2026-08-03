@@ -11,6 +11,9 @@ import logo from "@/assets/site/cemento_logo-2.png.asset.json";
 import slide1 from "@/assets/site/cemento_front_banner_slide_1.png.asset.json";
 import slide2 from "@/assets/site/cemento_projects_slide_2.png.asset.json";
 import slide3 from "@/assets/site/slide_3.png.asset.json";
+import slide4 from "@/assets/site/slide_4.png.asset.json";
+import maurizio from "@/assets/site/maurizio.jpg.asset.json";
+import stephin from "@/assets/site/stephin.jpg.asset.json";
 import cementoWork from "@/assets/site/cemento_work.png.asset.json";
 import customDesignsHero from "@/assets/site/cemento_custom_designs.jpg.asset.json";
 import saunders from "@/assets/site/17-saunders-street-mosman-park.jpg.asset.json";
@@ -34,6 +37,9 @@ export const siteImages = {
   slide1: slide1.url,
   slide2: slide2.url,
   slide3: slide3.url,
+  slide4: slide4.url,
+  maurizio: maurizio.url,
+  stephin: stephin.url,
   cementoWork: cementoWork.url,
   customDesignsHero: customDesignsHero.url,
   saunders: saunders.url,
