@@ -50,7 +50,7 @@ const trainers = [
   {
     name: "Rob Whitehurst",
     role: "Trade trainer & site supervisor",
-    image: siteImages.stephin,
+    image: siteImages.trades,
     bio: "Rob runs our install crews day to day. He teaches the practical side — substrate calls, sequencing, sanding and sealing — and the shortcuts that quietly ruin a job.",
   },
 ];

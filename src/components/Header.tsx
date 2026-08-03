@@ -24,6 +24,7 @@ const nav = [
   { to: "/training", label: "DIY Training" },
   { to: "/store", label: "Shop" },
   { to: "/visualiser", label: "AI Visualiser" },
+  { to: "/contact", label: "Contact Us" },
 ] as const;
 
 export function Header() {
