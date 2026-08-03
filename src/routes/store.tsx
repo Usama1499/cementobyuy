@@ -4,6 +4,7 @@ import { Search, ShoppingBag } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { PageHero } from "@/components/PageHero";
+import { siteImages } from "@/lib/projects";
 import { ProductCard } from "@/components/ProductCard";
 import { useCart } from "@/lib/cart";
 import { categories, products, type ProductCategory } from "@/lib/products";
@@ -53,6 +54,8 @@ function Store() {
         eyebrow="Shop"
         title="Materials to purchase"
         intro={`The full Microestil system, the primers and sealers we specify, and the pigments we tint with. Order online and collect from ${site.address}.`}
+        image={siteImages.materials}
+        imageAlt="Cemento Microestil product range and colour sample book"
       >
         <Button asChild variant="clay" size="lg">
           <Link to="/cart">

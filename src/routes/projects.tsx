@@ -2,6 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { motion, useReducedMotion } from "motion/react";
 import { MapPin } from "lucide-react";
 import { PageHero } from "@/components/PageHero";
+import { siteImages } from "@/lib/projects";
 import { Button } from "@/components/ui/button";
 import { projects, siteImages } from "@/lib/projects";
 
@@ -36,6 +37,8 @@ function ProjectsPage() {
         eyebrow="Portfolio"
         title="Our projects"
         intro="Seamless micro cement across Perth homes, outdoor areas and commercial fit-outs — every job installed and finished by our own trades."
+        image={siteImages.projectsPano}
+        imageAlt="Curved micro cement atrium with a floating stair in a Perth home"
       >
         <Button asChild variant="clay" size="lg">
           <Link to="/contact">Start your project</Link>
