@@ -2,7 +2,6 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { motion, useReducedMotion } from "motion/react";
 import { MapPin } from "lucide-react";
 import { PageHero } from "@/components/PageHero";
-import { siteImages } from "@/lib/projects";
 import { Button } from "@/components/ui/button";
 import { projects, siteImages } from "@/lib/projects";
 
