@@ -5,6 +5,7 @@ import { PageHero } from "@/components/PageHero";
 import { site, whatsappLink } from "@/lib/site";
 import { WhatsAppIcon } from "@/components/WhatsAppIcon";
 import { siteImages } from "@/lib/projects";
+import { BookingDialog } from "@/components/BookingDialog";
 
 export const Route = createFileRoute("/training")({
   head: () => ({
@@ -13,7 +14,7 @@ export const Route = createFileRoute("/training")({
       {
         name: "description",
         content:
-          "Hands-on micro cement training in Malaga, Perth. Next course 22 August 2026 — special offer $770. Learn prep, priming, trowelling, sanding and sealing from Maurizo and Rob.",
+          "Hands-on micro cement training in Malaga, Perth. Next course 22 August 2026 — special offer $770. Learn prep, priming, trowelling, sanding and sealing from Maurizio and Rob.",
       },
       { property: "og:title", content: "DIY Micro Cement Training in Perth | Cemento" },
       {
@@ -41,15 +42,15 @@ const curriculum = [
 
 const trainers = [
   {
-    name: "Maurizo Cremasco",
+    name: "Maurizio Cremasco",
     role: "Lead trainer & founder",
-    image: siteImages.diyTraining,
+    image: siteImages.maurizio,
     bio: "Italian-trained applicator with decades on the trowel, Maurizo brought the Microestil system to Perth and has finished everything from single ensuites to multi-storey façades.",
   },
   {
     name: "Rob Whitehurst",
     role: "Trade trainer & site supervisor",
-    image: siteImages.trades,
+    image: siteImages.stephin,
     bio: "Rob runs our install crews day to day. He teaches the practical side — substrate calls, sequencing, sanding and sealing — and the shortcuts that quietly ruin a job.",
   },
 ];
@@ -66,9 +67,7 @@ function Training() {
         image={siteImages.trades}
         imageAlt="The Cemento trade team at the Malaga training warehouse in Perth"
       >
-        <Button asChild variant="clay" size="lg">
-          <Link to="/contact">Book now</Link>
-        </Button>
+        <BookingDialog />
         <Button asChild variant="hero" size="lg">
           <a href={whatsappLink(bookMessage)} target="_blank" rel="noopener noreferrer">
             <WhatsAppIcon className="h-4 w-4" /> Ask about dates
@@ -116,9 +115,11 @@ function Training() {
               <p className="text-xs uppercase tracking-[0.16em] text-muted-foreground">Special offer</p>
               <p className="mt-2 font-display text-5xl font-bold text-clay">$770</p>
               <p className="mt-1 text-sm text-muted-foreground">per person, all materials included</p>
-              <Button asChild variant="clay" size="lg" className="mt-6 w-full">
-                <Link to="/contact">Book now</Link>
-              </Button>
+              <BookingDialog>
+                <Button variant="clay" size="lg" className="mt-6 w-full">
+                  Book now &amp; pay online
+                </Button>
+              </BookingDialog>
               <Button asChild variant="outline" size="lg" className="mt-3 w-full">
                 <a href={site.phoneHref}>Call {site.phoneDisplay}</a>
               </Button>
@@ -160,9 +161,11 @@ function Training() {
               </Link>{" "}
               and call us for support on their first job.
             </p>
-            <Button asChild variant="clay" size="lg" className="mt-6">
-              <Link to="/contact">Book now</Link>
-            </Button>
+            <BookingDialog>
+              <Button variant="clay" size="lg" className="mt-6">
+                Book now
+              </Button>
+            </BookingDialog>
           </div>
         </div>
       </section>
@@ -180,7 +183,7 @@ function Training() {
                   alt={`${t.name}, ${t.role} at Cemento`}
                   loading="lazy"
                   decoding="async"
-                  className="aspect-16/9 w-full object-cover"
+                  className="aspect-4/3 w-full object-cover object-top"
                 />
                 <div className="p-7">
                   <h3 className="text-xl">{t.name}</h3>
@@ -191,9 +194,7 @@ function Training() {
             ))}
           </div>
           <div className="mt-12 flex flex-wrap gap-3">
-            <Button asChild variant="clay" size="lg">
-              <Link to="/contact">Book now</Link>
-            </Button>
+            <BookingDialog />
             <Button asChild variant="whatsapp" size="lg">
               <a href={whatsappLink(bookMessage)} target="_blank" rel="noopener noreferrer">
                 <WhatsAppIcon className="h-4 w-4" /> Message us
