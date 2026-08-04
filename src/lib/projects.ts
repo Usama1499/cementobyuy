@@ -1,49 +1,49 @@
-import banner from "@/assets/site/cemento_front_banner.png.asset.json";
-import projectsPano from "@/assets/site/cemento_projects.png.asset.json";
-import workHall from "@/assets/site/work_image5.webp.asset.json";
-import workLounge from "@/assets/site/work_image3.webp.asset.json";
-import workPool from "@/assets/site/work_image.webp.asset.json";
-import diyTraining from "@/assets/site/cemento_diy_training.jpg.asset.json";
-import materials from "@/assets/site/cemento_materials.jpg.asset.json";
-import trades from "@/assets/site/trades.webp.asset.json";
-import forbes from "@/assets/site/forbes-apartments-11-scaled.jpg.asset.json";
-import logo from "@/assets/site/cemento_logo-2.png.asset.json";
-import slide1 from "@/assets/site/cemento_front_banner_slide_1.png.asset.json";
-import slide2 from "@/assets/site/cemento_projects_slide_2.png.asset.json";
-import slide3 from "@/assets/site/slide_3.png.asset.json";
-import slide4 from "@/assets/site/slide_4.png.asset.json";
-import maurizio from "@/assets/site/maurizio.jpg.asset.json";
-import stephin from "@/assets/site/stephin.jpg.asset.json";
-import cementoWork from "@/assets/site/cemento_work.png.asset.json";
-import customDesignsHero from "@/assets/site/cemento_custom_designs.jpg.asset.json";
-import saunders from "@/assets/site/17-saunders-street-mosman-park.jpg.asset.json";
-import applications from "@/assets/site/wokking_image.png.asset.json";
+import banner from "@/assets/site/cemento_front_banner.png";
+import projectsPano from "@/assets/site/cemento_projects.png";
+import workHall from "@/assets/site/work_image5.webp";
+import workLounge from "@/assets/site/work_image3.webp";
+import workPool from "@/assets/site/work_image.webp";
+import diyTraining from "@/assets/site/cemento_diy_training.jpg";
+import materials from "@/assets/site/cemento_materials.jpg";
+import trades from "@/assets/site/trades.webp";
+import forbes from "@/assets/site/forbes-apartments-11-scaled.jpg";
+import logo from "@/assets/site/cemento_logo-2.png";
+import slide1 from "@/assets/site/cemento_front_banner_slide_1.png";
+import slide2 from "@/assets/site/cemento_projects_slide_2.png";
+import slide3 from "@/assets/site/slide_3.png";
+import slide4 from "@/assets/site/slide_4.png";
+import maurizio from "@/assets/site/maurizio.jpg";
+import stephin from "@/assets/site/stephin.jpg";
+import cementoWork from "@/assets/site/cemento_work.png";
+import customDesignsHero from "@/assets/site/cemento_custom_designs.jpg";
+import saunders from "@/assets/site/17-saunders-street-mosman-park.jpg";
+import applications from "@/assets/site/wokking_image.png";
 import bathroom from "@/assets/bathroom.jpg";
 import customDesigns from "@/assets/custom-designs.jpg";
 import training from "@/assets/training.jpg";
 import hero from "@/assets/hero-microcement.jpg";
 
 export const siteImages = {
-  banner: banner.url,
-  projectsPano: projectsPano.url,
-  workHall: workHall.url,
-  workLounge: workLounge.url,
-  workPool: workPool.url,
-  diyTraining: diyTraining.url,
-  materials: materials.url,
-  trades: trades.url,
-  forbes: forbes.url,
-  logo: logo.url,
-  slide1: slide1.url,
-  slide2: slide2.url,
-  slide3: slide3.url,
-  slide4: slide4.url,
-  maurizio: maurizio.url,
-  stephin: stephin.url,
-  cementoWork: cementoWork.url,
-  customDesignsHero: customDesignsHero.url,
-  saunders: saunders.url,
-  applicationsGrid: applications.url,
+  banner: banner,
+  projectsPano: projectsPano,
+  workHall: workHall,
+  workLounge: workLounge,
+  workPool: workPool,
+  diyTraining: diyTraining,
+  materials: materials,
+  trades: trades,
+  forbes: forbes,
+  logo: logo,
+  slide1: slide1,
+  slide2: slide2,
+  slide3: slide3,
+  slide4: slide4,
+  maurizio: maurizio,
+  stephin: stephin,
+  cementoWork: cementoWork,
+  customDesignsHero: customDesignsHero,
+  saunders: saunders,
+  applicationsGrid: applications,
   bathroom,
   customDesigns,
   training,
