@@ -1,0 +1,16 @@
+INSERT INTO public.colors (id,name,hex,prompt_fragment,sort_order,active) VALUES ('mct-050','Frost MCT-050','#F2F2F0','a bright frost white with the faintest cool grey shadowing',10,true) ON CONFLICT (id) DO NOTHING;
+INSERT INTO public.colors (id,name,hex,prompt_fragment,sort_order,active) VALUES ('mct-100','Eclipse MCT-100','#5A5F5E','a deep eclipse charcoal grey with cool tonal depth',20,true) ON CONFLICT (id) DO NOTHING;
+INSERT INTO public.colors (id,name,hex,prompt_fragment,sort_order,active) VALUES ('mct-120','Solace MCT-120','#7E8478','a mid solace grey with a soft muted green-grey cast',30,true) ON CONFLICT (id) DO NOTHING;
+INSERT INTO public.colors (id,name,hex,prompt_fragment,sort_order,active) VALUES ('mct-140','Veil MCT-140','#8A8B7A','a veil grey-olive with a gentle earthy haze',40,true) ON CONFLICT (id) DO NOTHING;
+INSERT INTO public.colors (id,name,hex,prompt_fragment,sort_order,active) VALUES ('mct-200','Dune MCT-200','#9A8F6B','a warm dune khaki with sandy golden undertones',50,true) ON CONFLICT (id) DO NOTHING;
+INSERT INTO public.colors (id,name,hex,prompt_fragment,sort_order,active) VALUES ('mct-220','Terra MCT-220','#8E6A4E','a rich terra brown with warm toasted earth tones',60,true) ON CONFLICT (id) DO NOTHING;
+INSERT INTO public.colors (id,name,hex,prompt_fragment,sort_order,active) VALUES ('mct-240','Husk MCT-240','#8E6558','a husk brown with soft rosy-mauve warmth',70,true) ON CONFLICT (id) DO NOTHING;
+INSERT INTO public.colors (id,name,hex,prompt_fragment,sort_order,active) VALUES ('mct-300','Shiraz MCT-300','#8C3B3E','a deep shiraz red with wine-like richness',80,true) ON CONFLICT (id) DO NOTHING;
+INSERT INTO public.colors (id,name,hex,prompt_fragment,sort_order,active) VALUES ('mct-320','Flame MCT-320','#B8453A','a vivid flame terracotta red',90,true) ON CONFLICT (id) DO NOTHING;
+INSERT INTO public.colors (id,name,hex,prompt_fragment,sort_order,active) VALUES ('mct-400','Moss MCT-400','#8FA282','a soft moss sage green',100,true) ON CONFLICT (id) DO NOTHING;
+INSERT INTO public.colors (id,name,hex,prompt_fragment,sort_order,active) VALUES ('mct-420','Meadow MCT-420','#1FB08A','a vibrant meadow emerald green with fresh clarity',110,true) ON CONFLICT (id) DO NOTHING;
+INSERT INTO public.colors (id,name,hex,prompt_fragment,sort_order,active) VALUES ('mct-500','Lagoon MCT-500','#4C9BE8','a clear lagoon sky blue',120,true) ON CONFLICT (id) DO NOTHING;
+INSERT INTO public.colors (id,name,hex,prompt_fragment,sort_order,active) VALUES ('mct-520','Aquamarine MCT-520','#3E7789','a deep aquamarine teal blue',130,true) ON CONFLICT (id) DO NOTHING;
+INSERT INTO public.colors (id,name,hex,prompt_fragment,sort_order,active) VALUES ('mct-600','Lavender MCT-600','#8258C8','a rich lavender violet',140,true) ON CONFLICT (id) DO NOTHING;
+INSERT INTO public.colors (id,name,hex,prompt_fragment,sort_order,active) VALUES ('mct-700','Marigold MCT-700','#E5854A','a warm marigold orange',150,true) ON CONFLICT (id) DO NOTHING;
+INSERT INTO public.colors (id,name,hex,prompt_fragment,sort_order,active) VALUES ('mct-800','Sunset MCT-800','#EFC069','a golden sunset yellow',160,true) ON CONFLICT (id) DO NOTHING;
