@@ -1,15 +1,15 @@
-import ramePatina from "@/assets/finishes/rame-patina.jpg.asset.json";
-import azzurroLinea from "@/assets/finishes/azzurro-linea.jpg.asset.json";
-import terraToscana from "@/assets/finishes/terra-toscana.jpg.asset.json";
-import sabbiaFine from "@/assets/finishes/sabbia-fine.jpg.asset.json";
-import coccodrillo from "@/assets/finishes/coccodrillo.jpg.asset.json";
-import oroSpazzolato from "@/assets/finishes/oro-spazzolato.jpg.asset.json";
-import marmoRosa from "@/assets/finishes/marmo-rosa.jpg.asset.json";
-import cementoNaturale from "@/assets/finishes/cemento-naturale.jpg.asset.json";
-import oroAntico from "@/assets/finishes/oro-antico.jpg.asset.json";
-import coralloVeneziano from "@/assets/finishes/corallo-veneziano.jpg.asset.json";
-import champagneVelvet from "@/assets/finishes/champagne-velvet.jpg.asset.json";
-import argentoSeta from "@/assets/finishes/argento-seta.jpg.asset.json";
+import ramePatina from "@/assets/finishes/rame-patina.jpg";
+import azzurroLinea from "@/assets/finishes/azzurro-linea.jpg";
+import terraToscana from "@/assets/finishes/terra-toscana.jpg";
+import sabbiaFine from "@/assets/finishes/sabbia-fine.jpg";
+import coccodrillo from "@/assets/finishes/coccodrillo.jpg";
+import oroSpazzolato from "@/assets/finishes/oro-spazzolato.jpg";
+import marmoRosa from "@/assets/finishes/marmo-rosa.jpg";
+import cementoNaturale from "@/assets/finishes/cemento-naturale.jpg";
+import oroAntico from "@/assets/finishes/oro-antico.jpg";
+import coralloVeneziano from "@/assets/finishes/corallo-veneziano.jpg";
+import champagneVelvet from "@/assets/finishes/champagne-velvet.jpg";
+import argentoSeta from "@/assets/finishes/argento-seta.jpg";
 
 export interface Finish {
   /** Matches `textures.id` in the database. */
@@ -35,7 +35,7 @@ export const finishes: Finish[] = [
     description: "A warm copper finish with an oxidised patina effect.",
     best: "Feature walls · Fireplaces",
     swatch: "#a8563a",
-    image: ramePatina.url,
+    image: ramePatina,
   },
   {
     id: "azzurro-linea",
@@ -44,7 +44,7 @@ export const finishes: Finish[] = [
     description: "Deep ocean blue with fine vertical brush lines.",
     best: "Feature walls · Bar fronts",
     swatch: "#1f5f8b",
-    image: azzurroLinea.url,
+    image: azzurroLinea,
   },
   {
     id: "terra-toscana",
@@ -53,7 +53,7 @@ export const finishes: Finish[] = [
     description: "Rustic terracotta with layered movement.",
     best: "Living areas · Alfresco",
     swatch: "#b5623f",
-    image: terraToscana.url,
+    image: terraToscana,
   },
   {
     id: "sabbia-fine",
@@ -62,7 +62,7 @@ export const finishes: Finish[] = [
     description: "Fine sand-textured finish in a soft beige.",
     best: "Walls · Ceilings · Joinery",
     swatch: "#d9c7a7",
-    image: sabbiaFine.url,
+    image: sabbiaFine,
   },
   {
     id: "coccodrillo",
@@ -71,7 +71,7 @@ export const finishes: Finish[] = [
     description: "Crocodile skin-inspired textured finish.",
     best: "Feature panels · Reception",
     swatch: "#b48b4a",
-    image: coccodrillo.url,
+    image: coccodrillo,
   },
   {
     id: "oro-spazzolato",
@@ -80,7 +80,7 @@ export const finishes: Finish[] = [
     description: "Brushed gold metallic with subtle shimmer.",
     best: "Niches · Splashbacks",
     swatch: "#c9a45c",
-    image: oroSpazzolato.url,
+    image: oroSpazzolato,
   },
   {
     id: "marmo-rosa",
@@ -89,7 +89,7 @@ export const finishes: Finish[] = [
     description: "Grey marble with blush-pink veining.",
     best: "Bathrooms · Vanities",
     swatch: "#c9a3a0",
-    image: marmoRosa.url,
+    image: marmoRosa,
   },
   {
     id: "cemento-naturale",
@@ -98,7 +98,7 @@ export const finishes: Finish[] = [
     description: "Soft natural concrete effect.",
     best: "Floors · Walls · Whole homes",
     swatch: "#b9b5ae",
-    image: cementoNaturale.url,
+    image: cementoNaturale,
   },
   {
     id: "oro-antico",
@@ -107,7 +107,7 @@ export const finishes: Finish[] = [
     description: "Antique brushed gold finish.",
     best: "Feature walls · Hospitality",
     swatch: "#c1934f",
-    image: oroAntico.url,
+    image: oroAntico,
   },
   {
     id: "corallo-veneziano",
@@ -116,7 +116,7 @@ export const finishes: Finish[] = [
     description: "Venetian plaster with warm coral tones.",
     best: "Entries · Bedrooms",
     swatch: "#c86a55",
-    image: coralloVeneziano.url,
+    image: coralloVeneziano,
   },
   {
     id: "champagne-velvet",
@@ -125,7 +125,7 @@ export const finishes: Finish[] = [
     description: "Soft champagne metallic finish.",
     best: "Feature walls · Joinery",
     swatch: "#dcc49a",
-    image: champagneVelvet.url,
+    image: champagneVelvet,
   },
   {
     id: "argento-seta",
@@ -134,6 +134,6 @@ export const finishes: Finish[] = [
     description: "Silver silk with elegant horizontal movement.",
     best: "Feature walls · Commercial",
     swatch: "#c3c6c8",
-    image: argentoSeta.url,
+    image: argentoSeta,
   },
 ];
