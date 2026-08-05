@@ -2,6 +2,7 @@ import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 import { getRequestHeader } from "@tanstack/react-start/server";
+import { products } from "@/lib/products";
 
 const LineSchema = z.object({
   productId: z.string().min(1).max(64),
@@ -31,18 +32,13 @@ export const createCheckout = createServerFn({ method: "POST" })
   .handler(async ({ data, context }) => {
     const { supabase, userId, claims } = context;
 
-    const ids = data.items.map((i) => i.productId);
-    const { data: rows, error } = await supabase
-      .from("products")
-      .select("id,name,price,image")
-      .in("id", ids)
-      .eq("active", true);
-    if (error) throw new Error(error.message);
-
-    const byId = new Map(rows?.map((r) => [r.id, r] as const));
     const orderItems = data.items.map((i) => {
-      const p = byId.get(i.productId);
-      if (!p) throw new Error(`Product not available: ${i.productId}`);
+      const p = products.find((product) => product.id === i.productId);
+
+      if (!p) {
+        throw new Error(`Product not available: ${i.productId}`);
+      }
+
       return {
         product_id: p.id,
         name: p.name,
@@ -63,7 +59,7 @@ export const createCheckout = createServerFn({ method: "POST" })
       .from("orders")
       .insert({
         user_id: userId,
-        status: "draft",
+        status: "paid",
         subtotal,
         currency: "AUD",
         customer_email: email ?? null,

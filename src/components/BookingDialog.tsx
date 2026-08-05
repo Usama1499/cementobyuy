@@ -17,7 +17,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { useCart } from "@/lib/cart";
 import { useAuth } from "@/lib/auth";
 import { BookingSchema, saveBooking } from "@/lib/booking";
-import { TRAINING_PRODUCT_ID, formatPrice } from "@/lib/products";
+import { TRAINING_PRODUCT_ID, formatPrice, products } from "@/lib/products";
 
 const COURSE_DATE = "2026-08-22";
 const PRICE = 770;
@@ -48,29 +48,47 @@ export function BookingDialog({
   const set = (k: keyof typeof form) => (v: string) => setForm((f) => ({ ...f, [k]: v }));
   const participants = Math.min(20, Math.max(1, Number(form.participants) || 1));
 
-  function submit(e: React.FormEvent) {
-    e.preventDefault();
-    const parsed = BookingSchema.safeParse({
-      ...form,
-      company: form.company || undefined,
-      notes: form.notes || undefined,
-      participants,
-    });
-    if (!parsed.success) {
-      const flat: Record<string, string> = {};
-      for (const issue of (parsed.error as ZodError).issues) {
-        const key = String(issue.path[0]);
-        if (!flat[key]) flat[key] = issue.message;
-      }
-      setErrors(flat);
-      return;
+
+
+// In your BookingDialog
+const { add } = useCart(); // Change from setQty to add
+
+function submit(e: React.FormEvent) {
+  e.preventDefault();
+  const parsed = BookingSchema.safeParse({
+    ...form,
+    company: form.company || undefined,
+    notes: form.notes || undefined,
+    participants,
+  });
+  
+  if (!parsed.success) {
+    const flat: Record<string, string> = {};
+    for (const issue of (parsed.error as ZodError).issues) {
+      const key = String(issue.path[0]);
+      if (!flat[key]) flat[key] = issue.message;
     }
-    setErrors({});
-    saveBooking(parsed.data);
-    setQty(TRAINING_PRODUCT_ID, participants);
-    setOpen(false);
-    navigate({ to: user ? "/checkout" : "/auth" });
+    setErrors(flat);
+    return;
   }
+  
+  setErrors({});
+  saveBooking(parsed.data);
+  
+  console.log('=== Adding to cart ===');
+  console.log('Product ID:', TRAINING_PRODUCT_ID);
+  console.log('Quantity:', participants);
+  
+  // Use add instead of setQty
+  add(TRAINING_PRODUCT_ID, participants);
+  
+  // Check localStorage directly
+  const stored = localStorage.getItem('cemento-cart-v1');
+  console.log('📦 localStorage after add:', stored);
+  
+  setOpen(false);
+  navigate({ to: user ? "/checkout" : "/auth" });
+}
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
