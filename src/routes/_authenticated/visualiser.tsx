@@ -382,7 +382,9 @@ function VisualiserPage() {
                   </figure>
                   <figure className="surface-card overflow-hidden rounded-sm">
                     <figcaption className="border-b border-border bg-clay/10 px-4 py-2 text-xs uppercase tracking-widest text-clay">
-                      {[selected?.name, selectedColour?.name].filter(Boolean).join(" · ") || "Rendered"}
+                      {[selected?.name, selectedColour && `${selectedColour.name} · Shade ${shadeLevel}`]
+                        .filter(Boolean)
+                        .join(" · ") || "Rendered"}
                     </figcaption>
                     <img src={result} alt="Rendered room" className="w-full object-cover" />
                   </figure>
