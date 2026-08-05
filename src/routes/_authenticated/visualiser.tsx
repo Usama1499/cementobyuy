@@ -268,7 +268,10 @@ function VisualiserPage() {
                       title={c.name}
                       aria-label={c.name}
                       aria-pressed={colorId === c.id}
-                      onClick={() => setColorId(colorId === c.id ? "" : c.id)}
+                      onClick={() => {
+                        setColorId(colorId === c.id ? "" : c.id);
+                        setShadeLevel(100);
+                      }}
                       className={cn(
                         "relative aspect-square overflow-hidden rounded-sm border border-border/60 transition-all duration-300",
                         colorId === c.id
