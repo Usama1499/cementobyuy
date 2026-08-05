@@ -105,6 +105,8 @@ function VisualiserPage() {
           imageDataUrl: photo,
           finishId,
           colorId: colorId || undefined,
+          shadeLevel: colorId ? shadeLevel : undefined,
+
           notes: notes || undefined,
         },
       });
