@@ -291,10 +291,53 @@ function VisualiserPage() {
               )}
 
               {selectedColour && (
-                <p className="mt-4 rounded-sm bg-secondary/60 p-3 text-xs text-muted-foreground">
-                  Colour: <span className="font-semibold text-foreground">{selectedColour.name}</span>
-                </p>
+                <motion.div
+                  key={selectedColour.id}
+                  initial={{ opacity: 0, y: 4 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="mt-5 rounded-sm border border-border/70 bg-secondary/40 p-3"
+                >
+                  <div className="flex items-center justify-between gap-2">
+                    <p className="text-xs font-semibold text-foreground">{selectedColour.name}</p>
+                    <p className="text-[0.65rem] uppercase tracking-widest text-muted-foreground">
+                      Shade {shadeLevel}
+                    </p>
+                  </div>
+                  <p className="mt-1 text-[0.7rem] text-muted-foreground">
+                    Pick a shade — lightest on the left, full strength on the right.
+                  </p>
+                  <div className="mt-2.5 flex overflow-hidden rounded-sm border border-border/60">
+                    {shadeLadder(selectedColour.hex).map((s) => (
+                      <button
+                        key={s.level}
+                        type="button"
+                        title={`${selectedColour.name} · Shade ${s.level}`}
+                        aria-label={`${selectedColour.name} shade ${s.level}`}
+                        aria-pressed={shadeLevel === s.level}
+                        onClick={() => setShadeLevel(s.level)}
+                        className={cn(
+                          "relative h-9 flex-1 transition-all duration-200",
+                          shadeLevel === s.level ? "z-10 scale-y-125 shadow-md" : "hover:scale-y-110",
+                        )}
+                        style={{ backgroundColor: s.hex }}
+                      >
+                        {shadeLevel === s.level && (
+                          <span className="absolute inset-0 flex items-center justify-center">
+                            <Check className="h-3.5 w-3.5 text-ink-foreground drop-shadow-[0_1px_3px_rgba(0,0,0,0.9)]" />
+                          </span>
+                        )}
+                      </button>
+                    ))}
+                  </div>
+                  <p className="mt-2 text-[0.7rem] text-muted-foreground">
+                    Selected tint:{" "}
+                    <span className="font-mono text-foreground">
+                      {shadeHex(selectedColour.hex, shadeLevel)}
+                    </span>
+                  </p>
+                </motion.div>
               )}
+
 
               <Label htmlFor="notes" className="mt-6 block">
                 Optional notes
