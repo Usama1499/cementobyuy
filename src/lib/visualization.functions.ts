@@ -8,8 +8,10 @@ const InputSchema = z.object({
   imageDataUrl: z.string().min(64).max(9_000_000),
   finishId: z.string().min(1).max(64),
   colorId: z.string().min(1).max(64).optional(),
+  shadeLevel: z.number().int().min(10).max(100).optional(),
   notes: z.string().max(300).optional(),
 });
+
 
 function parseDataUrl(url: string): { mimeType: string; base64: string } {
   const m = /^data:(image\/[a-zA-Z0-9+.-]+);base64,(.+)$/.exec(url);
