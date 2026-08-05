@@ -51,11 +51,11 @@ export const generateVisualization = createServerFn({ method: "POST" })
     if (finishErr) throw new Error(finishErr.message);
     if (!finish) throw new Error("That finish is no longer available.");
 
-    let colour: { id: string; name: string; prompt_fragment: string } | null = null;
+    let colour: { id: string; name: string; hex: string; prompt_fragment: string } | null = null;
     if (data.colorId) {
       const { data: row, error: colErr } = await supabase
         .from("colors")
-        .select("id,name,prompt_fragment")
+        .select("id,name,hex,prompt_fragment")
         .eq("id", data.colorId)
         .eq("active", true)
         .maybeSingle();
@@ -64,14 +64,19 @@ export const generateVisualization = createServerFn({ method: "POST" })
       colour = row;
     }
 
+    const { shadeHex, shadeDescription } = await import("./shades");
+    const level = data.shadeLevel ?? 100;
+    const tintHex = colour ? shadeHex(colour.hex, level) : null;
+
     const { mimeType, base64 } = parseDataUrl(data.imageDataUrl);
 
     const prompt = [
       "Photorealistically re-render this exact room photo so the walls are finished in",
       `"${finish.name}" — ${finish.prompt_fragment}.`,
       colour
-        ? `Tint the finish in the colour "${colour.name}" — ${colour.prompt_fragment}. The colour must clearly read as this tone across the walls while the texture stays true to the chosen finish.`
+        ? `Tint the finish in ${shadeDescription(level)} the colour "${colour.name}" (shade ${level} of 100, approximate hex ${tintHex}) — ${colour.prompt_fragment}. The colour must clearly read as this exact tone across the walls while the texture stays true to the chosen finish.`
         : "",
+
       "Keep the original camera angle, perspective, room geometry, window positions, furniture, fixtures and lighting exactly as they are.",
       "Only change the wall surface material; preserve realistic reflections and shadows.",
       data.notes ? `Additional client note: ${data.notes.replace(/[\r\n]+/g, " ")}.` : "",
