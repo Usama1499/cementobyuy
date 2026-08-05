@@ -185,7 +185,7 @@ function VisualiserPage() {
               <p className="eyebrow text-[0.6rem]">Step 2</p>
               <p className="mt-2 font-display text-base">Choose your finish</p>
               <p className="mt-1 text-xs text-muted-foreground">
-                Twelve premium colours and textures from the CEMENTO range.
+                Twelve premium textures from the CEMENTO range — colour is chosen separately below.
               </p>
 
               {catalog.isLoading ? (
