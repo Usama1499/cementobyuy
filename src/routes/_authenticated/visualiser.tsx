@@ -10,7 +10,15 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { PageHero } from "@/components/PageHero";
 import { generateVisualization, getVisualizerQuota } from "@/lib/visualization.functions";
+import { finishes as localFinishes } from "@/lib/finishes";
+import { shadeLadder, shadeHex } from "@/lib/shades";
 import { cn } from "@/lib/utils";
+
+/** Bundled swatch images so the visualiser never depends on a remote CDN. */
+const FINISH_IMAGES: Record<string, string> = Object.fromEntries(
+  localFinishes.map((f) => [f.id, f.image]),
+);
+
 
 export const Route = createFileRoute("/_authenticated/visualiser")({
   head: () => ({
