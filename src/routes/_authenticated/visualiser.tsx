@@ -59,6 +59,8 @@ function VisualiserPage() {
   const [photo, setPhoto] = useState<string | null>(null);
   const [finishId, setFinishId] = useState<string>("");
   const [colorId, setColorId] = useState<string>("");
+  const [shadeLevel, setShadeLevel] = useState<number>(100);
+
   const [notes, setNotes] = useState("");
   const [result, setResult] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
