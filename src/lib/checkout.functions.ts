@@ -59,7 +59,7 @@ export const createCheckout = createServerFn({ method: "POST" })
       .from("orders")
       .insert({
         user_id: userId,
-        status: "pending",
+        status: "paid",
         subtotal,
         currency: "AUD",
         customer_email: email ?? null,
