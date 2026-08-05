@@ -10,7 +10,15 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { PageHero } from "@/components/PageHero";
 import { generateVisualization, getVisualizerQuota } from "@/lib/visualization.functions";
+import { finishes as localFinishes } from "@/lib/finishes";
+import { shadeLadder, shadeHex } from "@/lib/shades";
 import { cn } from "@/lib/utils";
+
+/** Bundled swatch images so the visualiser never depends on a remote CDN. */
+const FINISH_IMAGES: Record<string, string> = Object.fromEntries(
+  localFinishes.map((f) => [f.id, f.image]),
+);
+
 
 export const Route = createFileRoute("/_authenticated/visualiser")({
   head: () => ({
@@ -51,6 +59,8 @@ function VisualiserPage() {
   const [photo, setPhoto] = useState<string | null>(null);
   const [finishId, setFinishId] = useState<string>("");
   const [colorId, setColorId] = useState<string>("");
+  const [shadeLevel, setShadeLevel] = useState<number>(100);
+
   const [notes, setNotes] = useState("");
   const [result, setResult] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -95,6 +105,8 @@ function VisualiserPage() {
           imageDataUrl: photo,
           finishId,
           colorId: colorId || undefined,
+          shadeLevel: colorId ? shadeLevel : undefined,
+
           notes: notes || undefined,
         },
       });
@@ -173,7 +185,7 @@ function VisualiserPage() {
               <p className="eyebrow text-[0.6rem]">Step 2</p>
               <p className="mt-2 font-display text-base">Choose your finish</p>
               <p className="mt-1 text-xs text-muted-foreground">
-                Twelve premium colours and textures from the CEMENTO range.
+                Twelve premium textures from the CEMENTO range — colour is chosen separately below.
               </p>
 
               {catalog.isLoading ? (
@@ -199,7 +211,7 @@ function VisualiserPage() {
                       )}
                     >
                       <img
-                        src={f.image_url}
+                        src={FINISH_IMAGES[f.id] ?? f.image_url}
                         alt={`${f.name} micro cement finish`}
                         loading="lazy"
                         width={400}
@@ -256,7 +268,10 @@ function VisualiserPage() {
                       title={c.name}
                       aria-label={c.name}
                       aria-pressed={colorId === c.id}
-                      onClick={() => setColorId(colorId === c.id ? "" : c.id)}
+                      onClick={() => {
+                        setColorId(colorId === c.id ? "" : c.id);
+                        setShadeLevel(100);
+                      }}
                       className={cn(
                         "relative aspect-square overflow-hidden rounded-sm border border-border/60 transition-all duration-300",
                         colorId === c.id
@@ -276,10 +291,53 @@ function VisualiserPage() {
               )}
 
               {selectedColour && (
-                <p className="mt-4 rounded-sm bg-secondary/60 p-3 text-xs text-muted-foreground">
-                  Colour: <span className="font-semibold text-foreground">{selectedColour.name}</span>
-                </p>
+                <motion.div
+                  key={selectedColour.id}
+                  initial={{ opacity: 0, y: 4 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="mt-5 rounded-sm border border-border/70 bg-secondary/40 p-3"
+                >
+                  <div className="flex items-center justify-between gap-2">
+                    <p className="text-xs font-semibold text-foreground">{selectedColour.name}</p>
+                    <p className="text-[0.65rem] uppercase tracking-widest text-muted-foreground">
+                      Shade {shadeLevel}
+                    </p>
+                  </div>
+                  <p className="mt-1 text-[0.7rem] text-muted-foreground">
+                    Pick a shade — lightest on the left, full strength on the right.
+                  </p>
+                  <div className="mt-2.5 flex overflow-hidden rounded-sm border border-border/60">
+                    {shadeLadder(selectedColour.hex).map((s) => (
+                      <button
+                        key={s.level}
+                        type="button"
+                        title={`${selectedColour.name} · Shade ${s.level}`}
+                        aria-label={`${selectedColour.name} shade ${s.level}`}
+                        aria-pressed={shadeLevel === s.level}
+                        onClick={() => setShadeLevel(s.level)}
+                        className={cn(
+                          "relative h-9 flex-1 transition-all duration-200",
+                          shadeLevel === s.level ? "z-10 scale-y-125 shadow-md" : "hover:scale-y-110",
+                        )}
+                        style={{ backgroundColor: s.hex }}
+                      >
+                        {shadeLevel === s.level && (
+                          <span className="absolute inset-0 flex items-center justify-center">
+                            <Check className="h-3.5 w-3.5 text-ink-foreground drop-shadow-[0_1px_3px_rgba(0,0,0,0.9)]" />
+                          </span>
+                        )}
+                      </button>
+                    ))}
+                  </div>
+                  <p className="mt-2 text-[0.7rem] text-muted-foreground">
+                    Selected tint:{" "}
+                    <span className="font-mono text-foreground">
+                      {shadeHex(selectedColour.hex, shadeLevel)}
+                    </span>
+                  </p>
+                </motion.div>
               )}
+
 
               <Label htmlFor="notes" className="mt-6 block">
                 Optional notes
@@ -324,7 +382,9 @@ function VisualiserPage() {
                   </figure>
                   <figure className="surface-card overflow-hidden rounded-sm">
                     <figcaption className="border-b border-border bg-clay/10 px-4 py-2 text-xs uppercase tracking-widest text-clay">
-                      {[selected?.name, selectedColour?.name].filter(Boolean).join(" · ") || "Rendered"}
+                      {[selected?.name, selectedColour && `${selectedColour.name} · Shade ${shadeLevel}`]
+                        .filter(Boolean)
+                        .join(" · ") || "Rendered"}
                     </figcaption>
                     <img src={result} alt="Rendered room" className="w-full object-cover" />
                   </figure>

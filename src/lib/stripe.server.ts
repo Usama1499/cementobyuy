@@ -1,9 +1,12 @@
 // Minimal Stripe REST client using fetch (Workers-compatible).
+// Reads the secret key from the environment only — never from client code.
+// STRIPE_SECRET_KEY is the production/live variable; STRIPE_TEST_API_KEY is the fallback.
 function key() {
-  const k = process.env.STRIPE_TEST_API_KEY;
-  if (!k) throw new Error("Stripe is not configured");
+  const k = process.env.STRIPE_SECRET_KEY || process.env.STRIPE_TEST_API_KEY;
+  if (!k) throw new Error("Stripe is not configured (set STRIPE_SECRET_KEY)");
   return k;
 }
+
 
 function form(obj: Record<string, string | number | undefined>): string {
   const p = new URLSearchParams();
