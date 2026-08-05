@@ -211,7 +211,7 @@ function VisualiserPage() {
                       )}
                     >
                       <img
-                        src={f.image_url}
+                        src={FINISH_IMAGES[f.id] ?? f.image_url}
                         alt={`${f.name} micro cement finish`}
                         loading="lazy"
                         width={400}
