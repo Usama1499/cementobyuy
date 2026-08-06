@@ -28,6 +28,13 @@ import { site, whatsappLink } from "@/lib/site";
 import { finishes } from "@/lib/finishes";
 import { projects, siteImages } from "@/lib/projects";
 
+// Import mobile images
+import mobileSlide1 from "@/assets/site/mobile-01.png";
+import mobileSlide2 from "@/assets/site/mobile-02.png";
+import mobileSlide3 from "@/assets/site/mobile-03.png";
+import mobileSlide4 from "@/assets/site/mobile-04.png";
+
+
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
@@ -130,18 +137,22 @@ const services = [
 const slides = [
   {
     image: siteImages.slide1,
+    mobileImage: mobileSlide1,
     alt: "Cemento tradesman finishing a micro cement benchtop in a modern Perth kitchen",
   },
   {
     image: siteImages.slide2,
+    mobileImage: mobileSlide2,
     alt: "Curved micro cement staircase and indoor pool in a minimalist Perth home",
   },
   {
     image: siteImages.slide3,
+    mobileImage: mobileSlide3,
     alt: "Cemento branded feature wall in a micro cement finished interior",
   },
   {
     image: siteImages.slide4,
+    mobileImage: mobileSlide4, // Fallback to first mobile image if you don't have a 4th
     alt: "The Cemento team beside a micro cement benchtop in the Malaga showroom",
   },
 ] as const;
@@ -161,22 +172,42 @@ function HeroSlider() {
     <section className="relative isolate overflow-hidden">
       <div className="absolute inset-0 -z-20">
         <AnimatePresence initial={false}>
-          <motion.img
+          <motion.div
             key={index}
-            src={slides[index].image}
-            alt={slides[index].alt}
-            className="absolute inset-0 h-full w-full object-cover brightness-125 contrast-105 saturate-105"
+            className="absolute inset-0 h-full w-full"
             initial={reduce ? false : { opacity: 0, scale: 1.08 }}
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0 }}
             transition={{ opacity: { duration: 1.2, ease: "easeInOut" }, scale: { duration: 6.5, ease: "linear" } }}
-          />
+          >
+            {/* Desktop - full image */}
+            <div 
+              className="hidden md:block absolute inset-0 h-full w-full"
+              style={{
+                backgroundImage: `url(${slides[index].image})`,
+                backgroundSize: 'cover',
+                backgroundPosition: 'center',
+                backgroundRepeat: 'no-repeat',
+              }}
+            />
+            
+            {/* Tablet & Mobile - optimized images */}
+            <div 
+              className="block md:hidden absolute inset-0 h-full w-full"
+              style={{
+                backgroundImage: `url(${slides[index].mobileImage})`,
+                backgroundSize: 'cover',
+                backgroundPosition: 'center',
+                backgroundRepeat: 'no-repeat',
+              }}
+            />
+          </motion.div>
         </AnimatePresence>
       </div>
       <div className="absolute inset-0 -z-10 bg-ink/20" />
       <div className="absolute inset-0 -z-10 bg-gradient-to-t from-ink/85 via-ink/25 to-transparent" />
 
-      <div className="container-page flex min-h-[78vh] flex-col justify-end py-20 md:min-h-[86vh] md:py-28">
+      <div className="container-page flex min-h-[60vh] flex-col justify-end py-12 sm:min-h-[70vh] md:min-h-[78vh] lg:min-h-[86vh] md:py-20 lg:py-28">
         <motion.p
           className="eyebrow text-ink-foreground/75"
           initial={reduce ? false : { opacity: 0, y: 14 }}
@@ -186,7 +217,7 @@ function HeroSlider() {
           Perth · Western Australia
         </motion.p>
         <motion.h1
-          className="mt-4 max-w-4xl text-4xl leading-[1.03] text-ink-foreground drop-shadow-[0_2px_18px_rgba(0,0,0,0.45)] md:text-7xl"
+          className="mt-3 max-w-4xl text-3xl leading-[1.03] text-ink-foreground drop-shadow-[0_2px_18px_rgba(0,0,0,0.45)] sm:text-4xl md:text-6xl lg:text-7xl"
           initial={reduce ? false : { opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, delay: 0.08 }}
@@ -194,7 +225,7 @@ function HeroSlider() {
           Perth's best micro cement
         </motion.h1>
         <motion.p
-          className="mt-6 max-w-xl text-base leading-relaxed text-ink-foreground/90 drop-shadow-[0_1px_10px_rgba(0,0,0,0.5)] md:text-lg"
+          className="mt-4 max-w-xl text-sm leading-relaxed text-ink-foreground/90 drop-shadow-[0_1px_10px_rgba(0,0,0,0.5)] sm:text-base md:text-lg"
           initial={reduce ? false : { opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, delay: 0.16 }}
@@ -203,20 +234,20 @@ function HeroSlider() {
           installed and guaranteed by our own trades, at a price fixed on the day.
         </motion.p>
         <motion.div
-          className="mt-9 flex flex-wrap gap-3"
+          className="mt-6 flex flex-wrap gap-3 sm:mt-8 md:mt-9"
           initial={reduce ? false : { opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, delay: 0.24 }}
         >
-          <Button asChild variant="clay" size="lg">
+          <Button asChild variant="clay" size="default" className="sm:size-lg">
             <Link to="/contact">Get a free quote</Link>
           </Button>
-          <Button asChild variant="hero" size="lg">
+          <Button asChild variant="hero" size="default" className="sm:size-lg">
             <Link to="/projects">View our projects</Link>
           </Button>
         </motion.div>
 
-        <div className="mt-12 flex gap-2">
+        <div className="mt-8 flex gap-2 sm:mt-10 md:mt-12">
           {slides.map((s, i) => (
             <button
               key={s.image}
@@ -225,7 +256,7 @@ function HeroSlider() {
               aria-current={i === index}
               onClick={() => setIndex(i)}
               className={`h-1 rounded-full transition-all duration-500 ${
-                i === index ? "w-12 bg-ink-foreground" : "w-6 bg-ink-foreground/40"
+                i === index ? "w-8 sm:w-10 md:w-12 bg-ink-foreground" : "w-4 sm:w-5 md:w-6 bg-ink-foreground/40"
               }`}
             />
           ))}
@@ -331,7 +362,6 @@ const faqs = [
     a: "The full Perth metro area from our Malaga warehouse — north to Yanchep, south to Mandurah and east to the Hills. Regional WA projects are considered case by case.",
   },
 ];
-
 
 function Home() {
   const reduce = useReducedMotion();

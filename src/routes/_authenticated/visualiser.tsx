@@ -19,7 +19,6 @@ const FINISH_IMAGES: Record<string, string> = Object.fromEntries(
   localFinishes.map((f) => [f.id, f.image]),
 );
 
-
 export const Route = createFileRoute("/_authenticated/visualiser")({
   head: () => ({
     meta: [
@@ -54,12 +53,63 @@ interface Colour {
   hex: string;
 }
 
+// Image compression utility
+async function compressImage(
+  file: File,
+  maxWidth: number = 1200,
+  maxHeight: number = 1200,
+  quality: number = 0.85
+): Promise<string> {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = (event) => {
+      const img = new Image();
+      img.src = event.target?.result as string;
+      img.onload = () => {
+        // Calculate new dimensions maintaining aspect ratio
+        let width = img.width;
+        let height = img.height;
+
+        if (width > maxWidth || height > maxHeight) {
+          const ratio = Math.min(maxWidth / width, maxHeight / height);
+          width = Math.round(width * ratio);
+          height = Math.round(height * ratio);
+        }
+
+        // Create canvas and draw compressed image
+        const canvas = document.createElement('canvas');
+        canvas.width = width;
+        canvas.height = height;
+        const ctx = canvas.getContext('2d');
+
+        if (!ctx) {
+          reject(new Error('Could not get canvas context'));
+          return;
+        }
+
+        // Use better image smoothing
+        ctx.imageSmoothingEnabled = true;
+        ctx.imageSmoothingQuality = 'high';
+        ctx.drawImage(img, 0, 0, width, height);
+
+        // Get compressed data URL
+        const dataUrl = canvas.toDataURL('image/jpeg', quality);
+        resolve(dataUrl);
+      };
+      img.onerror = () => reject(new Error('Failed to load image'));
+    };
+    reader.onerror = () => reject(new Error('Failed to read file'));
+  });
+}
+
 function VisualiserPage() {
   const fileRef = useRef<HTMLInputElement>(null);
   const [photo, setPhoto] = useState<string | null>(null);
   const [finishId, setFinishId] = useState<string>("");
   const [colorId, setColorId] = useState<string>("");
   const [shadeLevel, setShadeLevel] = useState<number>(100);
+  const [isCompressing, setIsCompressing] = useState(false);
 
   const [notes, setNotes] = useState("");
   const [result, setResult] = useState<string | null>(null);
@@ -106,7 +156,6 @@ function VisualiserPage() {
           finishId,
           colorId: colorId || undefined,
           shadeLevel: colorId ? shadeLevel : undefined,
-
           notes: notes || undefined,
         },
       });
@@ -119,20 +168,38 @@ function VisualiserPage() {
     onError: (e) => setError(e instanceof Error ? e.message : "Something went wrong."),
   });
 
-  function onFile(file: File | undefined) {
+  // Updated file handler with compression
+  async function onFile(file: File | undefined) {
     if (!file) return;
-    if (!file.type.startsWith("image/")) return setError("Please choose an image file.");
-    if (file.size > 6_000_000) return setError("That photo is over 6MB — please use a smaller image.");
-    const r = new FileReader();
-    r.onload = () => {
-      setPhoto(typeof r.result === "string" ? r.result : null);
+    if (!file.type.startsWith("image/")) {
+      setError("Please choose an image file.");
+      return;
+    }
+
+    // Check file size before compression
+    if (file.size > 20_000_000) {
+      setError("That photo is over 20MB — please use a smaller image.");
+      return;
+    }
+
+    setIsCompressing(true);
+    setError(null);
+
+    try {
+      // Compress the image
+      // Max 1200px, 85% quality - good balance for AI processing
+      const compressedDataUrl = await compressImage(file, 1200, 1200, 0.85);
+      setPhoto(compressedDataUrl);
       setResult(null);
       setError(null);
-    };
-    r.readAsDataURL(file);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Failed to process image.");
+    } finally {
+      setIsCompressing(false);
+    }
   }
 
-  const canRender = !!photo && !!finishId && !mutation.isPending;
+  const canRender = !!photo && !!finishId && !mutation.isPending && !isCompressing;
 
   return (
     <>
@@ -169,8 +236,15 @@ function VisualiserPage() {
                 accept="image/*"
                 className="mt-3"
                 onChange={(e) => onFile(e.target.files?.[0])}
+                disabled={isCompressing}
               />
-              {photo && (
+              {isCompressing && (
+                <div className="mt-4 flex items-center gap-2 text-sm text-muted-foreground">
+                  <Loader2 className="h-4 w-4 animate-spin" />
+                  Compressing image...
+                </div>
+              )}
+              {photo && !isCompressing && (
                 <motion.img
                   initial={{ opacity: 0, scale: 0.98 }}
                   animate={{ opacity: 1, scale: 1 }}
@@ -338,7 +412,6 @@ function VisualiserPage() {
                 </motion.div>
               )}
 
-
               <Label htmlFor="notes" className="mt-6 block">
                 Optional notes
               </Label>
@@ -360,7 +433,7 @@ function VisualiserPage() {
               onClick={() => mutation.mutate()}
             >
               {mutation.isPending ? <Loader2 className="animate-spin" /> : <Sparkles />}
-              {mutation.isPending ? "Rendering…" : "Render my room"}
+              {mutation.isPending ? "Rendering…" : isCompressing ? "Compressing..." : "Render my room"}
             </Button>
             {error && <p className="text-sm text-destructive">{error}</p>}
           </div>
@@ -407,6 +480,13 @@ function VisualiserPage() {
                     <Loader2 className="h-8 w-8 animate-spin text-clay" />
                     <p className="text-sm text-muted-foreground">
                       Rendering your room… this usually takes 10–25 seconds.
+                    </p>
+                  </div>
+                ) : isCompressing ? (
+                  <div className="flex flex-col items-center gap-3 text-center">
+                    <Loader2 className="h-8 w-8 animate-spin text-clay" />
+                    <p className="text-sm text-muted-foreground">
+                      Optimizing your image for best results…
                     </p>
                   </div>
                 ) : (

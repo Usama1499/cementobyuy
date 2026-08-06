@@ -1,5 +1,5 @@
 import { Link } from "@tanstack/react-router";
-import { Clock, MapPin, Phone } from "lucide-react";
+import { Clock, Facebook, MapPin, Phone } from "lucide-react";
 import { site, whatsappLink } from "@/lib/site";
 import { WhatsAppIcon } from "./WhatsAppIcon";
 
@@ -69,15 +69,16 @@ export function Footer() {
             </li>
             <li className="flex gap-2.5">
               <Clock className="mt-0.5 h-4 w-4 shrink-0" />
-              {site.hours}
+              By appointment
             </li>
           </ul>
           <a
             href={site.facebook}
             target="_blank"
             rel="noopener noreferrer"
-            className="mt-4 inline-block text-sm text-ink-foreground/75 underline-offset-4 transition-colors hover:text-ink-foreground hover:underline"
+            className="mt-4 inline-flex items-center gap-2 text-sm text-ink-foreground/75 underline-offset-4 transition-colors hover:text-ink-foreground hover:underline"
           >
+            <Facebook className="h-4 w-4" />
             Facebook
           </a>
         </div>
