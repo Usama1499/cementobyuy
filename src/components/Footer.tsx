@@ -87,7 +87,21 @@ export function Footer() {
       <div className="border-t border-ink-foreground/10">
         <div className="container-page flex flex-col gap-2 py-5 text-xs text-ink-foreground/50 sm:flex-row sm:items-center sm:justify-between">
           <p>© {new Date().getFullYear()} Cemento Micro Cement. All rights reserved.</p>
-          <p>Members of WASPA &amp; HBA · Servicing Perth &amp; Western Australia</p>
+          <div className="flex flex-col items-center gap-2 sm:flex-row">
+            <p>Members of WASPA &amp; HBA · Servicing Perth &amp; Western Australia</p>
+            <span className="hidden sm:inline text-ink-foreground/30">|</span>
+            <p>
+              Developed by{" "}
+              <a
+                href="https://makeitdream.com.au"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-ink-foreground/70 transition-colors hover:text-ink-foreground hover:underline"
+              >
+                Make It Dream
+              </a>
+            </p>
+          </div>
         </div>
       </div>
     </footer>
