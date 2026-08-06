@@ -101,6 +101,7 @@ const services = [
     label: "Textures & finishes",
     icon: Layers,
     image: siteImages.workLounge,
+    imagePosition: "center",
     copy: "Twelve premium finishes — copper patinas, brushed golds, marbles and natural concrete.",
   },
   {
@@ -108,6 +109,7 @@ const services = [
     label: "Moulds & custom designs",
     icon: PencilRuler,
     image: siteImages.customDesigns,
+    imagePosition: "center",
     copy: "Curved walls, arched niches, fireplaces, benchtops and sculpted joinery.",
   },
   {
@@ -115,6 +117,7 @@ const services = [
     label: "Materials to purchase",
     icon: ShoppingBag,
     image: siteImages.materials,
+    imagePosition: "center",
     copy: "Microestil base, finishing coats, primers, sealers and pigments — trade-grade stock.",
   },
   {
@@ -122,7 +125,7 @@ const services = [
     label: "DIY training",
     icon: GraduationCap,
     image: siteImages.stephin,
-    imagePosition: "center 0%", // Adjust this to show the face clearly
+    imagePosition: "center 0%",
     copy: "Hands-on workshops so you can apply micro cement yourself, properly.",
   },
 ] as const;
