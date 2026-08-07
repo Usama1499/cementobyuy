@@ -148,9 +148,8 @@ function CheckoutPage() {
               <legend className="sr-only">Choose a payment method</legend>
 
               <label
-                className={`flex cursor-pointer items-start gap-3 rounded-sm border p-4 transition-colors ${
-                  provider === "square" ? "border-clay bg-secondary/50" : "border-border"
-                }`}
+                className={`flex cursor-pointer items-start gap-3 rounded-sm border p-4 transition-colors ${provider === "square" ? "border-clay bg-secondary/50" : "border-border"
+                  }`}
               >
                 <input
                   type="radio"
@@ -167,8 +166,9 @@ function CheckoutPage() {
                   <span className="mt-1 block text-xs text-muted-foreground">
                     Enter your card below — you stay on this page.
                   </span>
-                  {provider === "square" &&
-                    (config.isLoading ? (
+
+                  {provider === "square" && (
+                    config.isLoading ? (
                       <span className="mt-3 flex items-center gap-2 text-sm text-muted-foreground">
                         <Loader2 className="h-4 w-4 animate-spin" /> Preparing card form…
                       </span>
@@ -176,21 +176,26 @@ function CheckoutPage() {
                       <SquareCardForm
                         appId={config.data.appId}
                         locationId={config.data.locationId}
-                        environment={config.data.environment}
+                        environment={config.data.environment as "sandbox" | "production"}
                         onReady={handleReady}
                       />
                     ) : (
-                      <span className="mt-3 block text-sm text-destructive">
-                        Card payments are unavailable right now. Please use Stripe Checkout.
-                      </span>
-                    ))}
+                      <div className="mt-3 space-y-2">
+                        <span className="block text-sm text-destructive">
+                          Card payments are unavailable right now.
+                        </span>
+                        <span className="block text-xs text-muted-foreground">
+                          Please use Stripe Checkout or check your Square configuration.
+                        </span>
+                      </div>
+                    )
+                  )}
                 </span>
               </label>
 
               <label
-                className={`flex cursor-pointer items-start gap-3 rounded-sm border p-4 transition-colors ${
-                  provider === "stripe" ? "border-clay bg-secondary/50" : "border-border"
-                }`}
+                className={`flex cursor-pointer items-start gap-3 rounded-sm border p-4 transition-colors ${provider === "stripe" ? "border-clay bg-secondary/50" : "border-border"
+                  }`}
               >
                 <input
                   type="radio"
