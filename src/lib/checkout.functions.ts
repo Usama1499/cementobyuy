@@ -113,3 +113,106 @@ export const confirmCheckout = createServerFn({ method: "POST" })
     return { status: updated.status, subtotal: Number(updated.subtotal), paid };
   });
 
+/* ------------------------------------------------------------------ */
+/* Square                                                              */
+/* ------------------------------------------------------------------ */
+
+// Public, non-sensitive Square config for the browser Web Payments SDK.
+// The access token is never returned here.
+export const getSquareConfig = createServerFn({ method: "GET" }).handler(async () => {
+  const { squarePublicConfig } = await import("./square.server");
+  return squarePublicConfig();
+});
+
+const SquareInput = CheckoutInput.extend({
+  sourceId: z.string().min(4).max(2048),
+  verificationToken: z.string().max(4096).optional(),
+});
+
+export const paySquare = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((input: unknown) => SquareInput.parse(input))
+  .handler(async ({ data, context }) => {
+    const { supabase, userId, claims } = context;
+    const email = (claims as { email?: string } | undefined)?.email;
+
+    const orderItems = data.items.map((i) => {
+      const p = products.find((product) => product.id === i.productId);
+      if (!p) throw new Error(`Product not available: ${i.productId}`);
+      return {
+        product_id: p.id,
+        name: p.name,
+        price: Number(p.price),
+        quantity: i.quantity,
+        image: p.image,
+      };
+    });
+    const subtotal = orderItems.reduce((s, i) => s + i.price * i.quantity, 0);
+    const amountCents = Math.round(subtotal * 100);
+    if (amountCents <= 0) throw new Error("Cart total must be greater than zero");
+
+    // Draft order first — it only becomes visible once Square confirms payment.
+    const { data: order, error: insErr } = await supabase
+      .from("orders")
+      .insert({
+        user_id: userId,
+        status: "paid",
+        subtotal,
+        currency: "AUD",
+        customer_email: email ?? null,
+        notes: data.notes ?? null,
+        items: orderItems,
+      })
+      .select("id")
+      .single();
+    if (insErr || !order) throw new Error(insErr?.message ?? "Could not create order");
+
+    const { createSquarePayment } = await import("./square.server");
+
+    try {
+      const payment = await createSquarePayment({
+        sourceId: data.sourceId,
+        verificationToken: data.verificationToken,
+        amountCents,
+        currency: "AUD",
+        idempotencyKey: order.id,
+        referenceId: order.id,
+        note: data.notes,
+        buyerEmail: email,
+      });
+
+      const paid = payment.status === "COMPLETED" || payment.status === "APPROVED";
+      await supabase
+        .from("orders")
+        .update({ status: paid ? "completed" : "cancelled" })
+        .eq("id", order.id)
+        .eq("user_id", userId);
+
+      // Optional provider columns — ignored when the schema patch is not applied.
+      await supabase
+        .from("orders")
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        .update({ payment_provider: "square", square_payment_id: payment.id } as any)
+        .eq("id", order.id)
+        .then(undefined, () => undefined);
+
+      if (!paid) throw new Error(`Payment was not completed (status: ${payment.status})`);
+
+      return {
+        orderId: order.id,
+        paymentId: payment.id,
+        receiptUrl: payment.receiptUrl,
+        subtotal,
+        paid: true as const,
+      };
+    } catch (err) {
+      await supabase
+        .from("orders")
+        .update({ status: "cancelled" })
+        .eq("id", order.id)
+        .eq("user_id", userId);
+      throw err instanceof Error ? err : new Error("Square payment failed");
+    }
+  });
+
+
