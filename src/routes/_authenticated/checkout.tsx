@@ -5,7 +5,7 @@ import { useCallback, useEffect, useState } from "react";
 import { CheckCircle2, CreditCard, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useCart } from "@/lib/cart";
-import { createCheckout, getSquareConfig, paySquare } from "@/lib/checkout.functions";
+import { paySquare, getSquareConfig } from "@/lib/checkout.functions";
 import { TRAINING_PRODUCT_ID, formatPrice } from "@/lib/products";
 import { bookingSummary, clearBooking, readBooking } from "@/lib/booking";
 import { SquareCardForm, type SquareCardFormHandle } from "@/components/SquareCardForm";
@@ -14,23 +14,19 @@ export const Route = createFileRoute("/_authenticated/checkout")({
   head: () => ({
     meta: [
       { title: "Checkout | Cemento Perth" },
-      { name: "description", content: "Securely checkout with Square or Stripe." },
+      { name: "description", content: "Securely checkout with Square." },
       { name: "robots", content: "noindex" },
     ],
   }),
   component: CheckoutPage,
 });
 
-type Provider = "square" | "stripe";
-
 function CheckoutPage() {
   const { items, subtotal, hydrated, clear } = useCart();
   const navigate = useNavigate();
-  const checkout = useServerFn(createCheckout);
   const squarePay = useServerFn(paySquare);
   const squareConfig = useServerFn(getSquareConfig);
 
-  const [provider, setProvider] = useState<Provider>("square");
   const [cardHandle, setCardHandle] = useState<SquareCardFormHandle | null>(null);
   const [success, setSuccess] = useState<{ orderId: string; receiptUrl: string | null } | null>(
     null,
@@ -50,14 +46,6 @@ function CheckoutPage() {
     return booking ? bookingSummary(booking) : undefined;
   };
 
-  const stripeMutation = useMutation({
-    mutationFn: async () => checkout({ data: { items: orderLines, notes: notes() } }),
-    onSuccess: (r) => {
-      clearBooking();
-      window.location.href = r.url;
-    },
-  });
-
   const squareMutation = useMutation({
     mutationFn: async () => {
       if (!cardHandle) throw new Error("Enter your card details to continue");
@@ -71,8 +59,8 @@ function CheckoutPage() {
     },
   });
 
-  const pending = stripeMutation.isPending || squareMutation.isPending;
-  const error = provider === "square" ? squareMutation.error : stripeMutation.error;
+  const pending = squareMutation.isPending;
+  const error = squareMutation.error;
 
   const handleReady = useCallback((h: SquareCardFormHandle | null) => setCardHandle(h), []);
 
@@ -114,7 +102,7 @@ function CheckoutPage() {
       <p className="eyebrow">Checkout</p>
       <h1 className="mt-3 text-4xl md:text-5xl">Confirm your order</h1>
       <p className="mt-4 max-w-2xl text-muted-foreground">
-        Pay by card without leaving the site, or continue to Stripe Checkout. Prices include GST.
+        Pay securely by card — prices include GST.
       </p>
 
       <div className="mt-10 grid gap-8 lg:grid-cols-[1.6fr_1fr]">
@@ -144,70 +132,29 @@ function CheckoutPage() {
 
           <div className="surface-card rounded-sm p-6">
             <h2 className="text-xl">Payment method</h2>
-            <fieldset className="mt-5 space-y-3" disabled={pending}>
-              <legend className="sr-only">Choose a payment method</legend>
-
-              <label
-                className={`flex cursor-pointer items-start gap-3 rounded-sm border p-4 transition-colors ${
-                  provider === "square" ? "border-clay bg-secondary/50" : "border-border"
-                }`}
-              >
-                <input
-                  type="radio"
-                  name="payment-provider"
-                  value="square"
-                  checked={provider === "square"}
-                  onChange={() => setProvider("square")}
-                  className="mt-1 accent-[var(--clay,currentColor)]"
-                />
-                <span className="flex-1">
-                  <span className="flex items-center gap-2 text-sm font-medium">
-                    <CreditCard className="h-4 w-4" /> Credit / Debit Card (Square)
-                  </span>
-                  <span className="mt-1 block text-xs text-muted-foreground">
-                    Enter your card below — you stay on this page.
-                  </span>
-                  {provider === "square" &&
-                    (config.isLoading ? (
-                      <span className="mt-3 flex items-center gap-2 text-sm text-muted-foreground">
-                        <Loader2 className="h-4 w-4 animate-spin" /> Preparing card form…
-                      </span>
-                    ) : config.data?.configured && config.data.appId && config.data.locationId ? (
-                      <SquareCardForm
-                        appId={config.data.appId}
-                        locationId={config.data.locationId}
-                        environment={config.data.environment}
-                        onReady={handleReady}
-                      />
-                    ) : (
-                      <span className="mt-3 block text-sm text-destructive">
-                        Card payments are unavailable right now. Please use Stripe Checkout.
-                      </span>
-                    ))}
-                </span>
-              </label>
-
-              <label
-                className={`flex cursor-pointer items-start gap-3 rounded-sm border p-4 transition-colors ${
-                  provider === "stripe" ? "border-clay bg-secondary/50" : "border-border"
-                }`}
-              >
-                <input
-                  type="radio"
-                  name="payment-provider"
-                  value="stripe"
-                  checked={provider === "stripe"}
-                  onChange={() => setProvider("stripe")}
-                  className="mt-1"
-                />
-                <span className="flex-1">
-                  <span className="block text-sm font-medium">Stripe Checkout</span>
-                  <span className="mt-1 block text-xs text-muted-foreground">
-                    You'll be redirected to Stripe's secure hosted page.
-                  </span>
-                </span>
-              </label>
-            </fieldset>
+            <div className="mt-5">
+              {config.isLoading ? (
+                <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                  <Loader2 className="h-4 w-4 animate-spin" /> Preparing card form…
+                </div>
+              ) : config.data?.configured && config.data.appId && config.data.locationId ? (
+                <>
+                  <p className="mb-4 text-sm text-muted-foreground">
+                    Enter your card details below. Your payment is processed securely by Square.
+                  </p>
+                  <SquareCardForm
+                    appId={config.data.appId}
+                    locationId={config.data.locationId}
+                    environment={config.data.environment}
+                    onReady={handleReady}
+                  />
+                </>
+              ) : (
+                <p className="text-sm text-destructive">
+                  Card payments are currently unavailable. Please try again later.
+                </p>
+              )}
+            </div>
           </div>
         </div>
 
@@ -239,12 +186,13 @@ function CheckoutPage() {
             disabled={
               pending ||
               items.length === 0 ||
-              (provider === "square" && !cardHandle)
+              !cardHandle ||
+              !config.data?.configured
             }
-            onClick={() => (provider === "square" ? squareMutation.mutate() : stripeMutation.mutate())}
+            onClick={() => squareMutation.mutate()}
           >
             {pending && <Loader2 className="animate-spin" />}
-            {provider === "square" ? `Pay ${formatPrice(total)}` : "Pay with Stripe"}
+            Pay {formatPrice(total)}
           </Button>
 
           {error && (
@@ -254,8 +202,7 @@ function CheckoutPage() {
           )}
 
           <p className="mt-4 text-xs leading-relaxed text-muted-foreground">
-            Payments are processed securely by Square or Stripe. Card details never touch our
-            servers.
+            Payments are processed securely by Square. Card details never touch our servers.
           </p>
           <Button asChild variant="outline" size="lg" className="mt-3 w-full">
             <Link to="/cart">Back to cart</Link>
