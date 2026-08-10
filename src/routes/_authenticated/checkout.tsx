@@ -78,13 +78,13 @@ function CheckoutPage() {
             Thanks for your order. Reference: {success.orderId.slice(0, 8)}
           </p>
           <div className="mt-6 flex flex-wrap justify-center gap-3">
-            {success.receiptUrl && (
+            {/* {success.receiptUrl && (
               <Button asChild variant="outline">
                 <a href={success.receiptUrl} target="_blank" rel="noreferrer">
                   View receipt
                 </a>
               </Button>
-            )}
+            )} */}
             <Button asChild variant="clay">
               <Link to="/store">Keep shopping</Link>
             </Button>
