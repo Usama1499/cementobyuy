@@ -13,16 +13,16 @@ export default defineConfig({
     // when the hosting platform does not inject environment variables at build time.
     define: {
       "import.meta.env.VITE_SUPABASE_URL": JSON.stringify(
-        "https://mudbizqkcldtskdtomkv.supabase.co",
+        "https://ugovzrtyuxxztohhnlxj.supabase.co",
       ),
       "import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY": JSON.stringify(
-        "sb_publishable_W43SaU3KlU5CxmhYM5xEhg_ZYupzRU4",
+        "sb_publishable_Rnc9IuXFcwoW48lV8Nz6EA_gY9rL-er",
       ),
       "process.env.SUPABASE_URL": JSON.stringify(
-        "https://mudbizqkcldtskdtomkv.supabase.co",
+        "https://ugovzrtyuxxztohhnlxj.supabase.co",
       ),
       "process.env.SUPABASE_PUBLISHABLE_KEY": JSON.stringify(
-        "sb_publishable_W43SaU3KlU5CxmhYM5xEhg_ZYupzRU4",
+        "sb_publishable_Rnc9IuXFcwoW48lV8Nz6EA_gY9rL-er",
       ),
     },
   },

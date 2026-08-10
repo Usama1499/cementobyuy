@@ -241,7 +241,7 @@ export const products: Product[] = [
     name: "DIY Micro Cement Training — 22 August 2026",
     price: 770,
     category: "Training",
-    image: "https://mudbizqkcldtskdtomkv.supabase.co/storage/v1/object/sign/cemento-images/cemento-training.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV8wYTRmN2Q0Mi1lZDhjLTRmODMtOWVkNy02OGY5NWYwZmM5MjAiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJjZW1lbnRvLWltYWdlcy9jZW1lbnRvLXRyYWluaW5nLnBuZyIsInNjb3BlIjoiZG93bmxvYWQiLCJpYXQiOjE3ODU5NTIxOTYsImV4cCI6MjEwMTMxMjE5Nn0.-O1MMMVKvR7uhIBtPqgQYF9Ne2g8sK8GfLrkaKQBC4Q",
+    image: "https://ugovzrtyuxxztohhnlxj.supabase.co/storage/v1/object/sign/cemento-images/cemento-training.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV8wYTRmN2Q0Mi1lZDhjLTRmODMtOWVkNy02OGY5NWYwZmM5MjAiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJjZW1lbnRvLWltYWdlcy9jZW1lbnRvLXRyYWluaW5nLnBuZyIsInNjb3BlIjoiZG93bmxvYWQiLCJpYXQiOjE3ODU5NTIxOTYsImV4cCI6MjEwMTMxMjE5Nn0.-O1MMMVKvR7uhIBtPqgQYF9Ne2g8sK8GfLrkaKQBC4Q",
     description:
       "Full-day hands-on workshop at our Malaga warehouse. All materials, tools and lunch included.",
   },

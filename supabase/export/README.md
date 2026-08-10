@@ -1,6 +1,6 @@
 # Migrating Cemento to your own Supabase project
 
-Target project: `https://mudbizqkcldtskdtomkv.supabase.co`
+Target project: `https://ugovzrtyuxxztohhnlxj.supabase.co`
 
 ## 1. Run the SQL
 
@@ -52,13 +52,13 @@ Important: this is a **Vite / TanStack Start** app, not Next.js. Client-visible 
 
 | Variable | Value | Scope |
 | --- | --- | --- |
-| `VITE_SUPABASE_URL` | `https://mudbizqkcldtskdtomkv.supabase.co` | client + server |
-| `VITE_SUPABASE_PUBLISHABLE_KEY` | `sb_publishable_W43SaU3KlU5CxmhYM5xEhg_ZYupzRU4` | client + server |
-| `VITE_SUPABASE_PROJECT_ID` | `mudbizqkcldtskdtomkv` | client |
-| `SUPABASE_URL` | `https://mudbizqkcldtskdtomkv.supabase.co` | server (SSR / server functions) |
-| `SUPABASE_PUBLISHABLE_KEY` | `sb_publishable_W43SaU3KlU5CxmhYM5xEhg_ZYupzRU4` | server |
+| `VITE_SUPABASE_URL` | `https://ugovzrtyuxxztohhnlxj.supabase.co` | client + server |
+| `VITE_SUPABASE_PUBLISHABLE_KEY` | `sb_publishable_Rnc9IuXFcwoW48lV8Nz6EA_gY9rL-er` | client + server |
+| `VITE_SUPABASE_PROJECT_ID` | `ugovzrtyuxxztohhnlxj` | client |
+| `SUPABASE_URL` | `https://ugovzrtyuxxztohhnlxj.supabase.co` | server (SSR / server functions) |
+| `SUPABASE_PUBLISHABLE_KEY` | `sb_publishable_Rnc9IuXFcwoW48lV8Nz6EA_gY9rL-er` | server |
 | `SUPABASE_SERVICE_ROLE_KEY` | `sb_secret_...` from your new project (API keys page) | server only — never expose |
-| `SUPABASE_PROJECT_ID` | `mudbizqkcldtskdtomkv` | server |
+| `SUPABASE_PROJECT_ID` | `ugovzrtyuxxztohhnlxj` | server |
 | `GOOGLE_AI_API_KEY` | your Google AI Studio key (Gemini — AI visualiser) | server only |
 | `STRIPE_SECRET_KEY` | `sk_live_...` / `sk_test_...` | server only |
 | `VITE_STRIPE_PUBLISHABLE_KEY` | `pk_live_51OLHA3CDRVgaNqKh...` | client |
@@ -75,7 +75,7 @@ Lovable's tooling and is ignored by Vercel and by the Supabase CLI unless you li
 repo out of Lovable, replace its contents with:
 
 ```toml
-project_id = "mudbizqkcldtskdtomkv"
+project_id = "ugovzrtyuxxztohhnlxj"
 ```
 
 ## 7. Verify

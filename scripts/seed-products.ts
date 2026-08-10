@@ -2,7 +2,7 @@ import { createClient } from "@supabase/supabase-js";
 import { products } from "../src/lib/products";
 
 const supabase = createClient(
-  "https://mudbizqkcldtskdtomkv.supabase.co",
+  "https://ugovzrtyuxxztohhnlxj.supabase.co",
   "sb_secret_iiclI5lUhipfcR0TdoN7cA_QRl9Rrsl"
 );
 
