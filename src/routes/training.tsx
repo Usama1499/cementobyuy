@@ -88,7 +88,7 @@ function Training() {
                   <CalendarDays className="mt-0.5 h-4 w-4 shrink-0 text-clay" />
                   <div>
                     <dt className="text-xs uppercase tracking-[0.14em] text-muted-foreground">Date</dt>
-                    <dd className="text-sm font-medium">Sat 22 Aug 2026</dd>
+                    <dd className="text-sm font-medium">Coming Soon</dd>
                   </div>
                 </div>
                 <div className="flex items-start gap-2.5">
