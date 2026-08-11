@@ -125,7 +125,7 @@ export const projects: Project[] = [
       "Fully waterproofed shower and vanity in Cemento Naturale — installed straight over the existing tiles.",
     category: "Bathrooms",
     location: "Subiaco",
-    image: siteImages.southFrementle,
+    image: siteImages.south-frementle,
   },
   {
     id: "sculpted-joinery",
