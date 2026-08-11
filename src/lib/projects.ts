@@ -8,7 +8,7 @@ import materials from "@/assets/site/cemento_materials.jpg";
 import trades from "@/assets/site/trades.jpg";
 import forbes from "@/assets/site/forbes-apartments-11-scaled.jpg";
 import logo from "@/assets/site/cemento_logo-2.png";
-import slide1 from "@/assets/site/cemento_front_banner_slide_1.png";
+import slide1 from "@/assets/site/cemento_front_banner.png";
 import slide2 from "@/assets/site/cemento_projects_slide_2.png";
 import slide3 from "@/assets/site/slide_3.png";
 import slide4 from "@/assets/site/slide_4.png";
@@ -184,11 +184,11 @@ export const projects: Project[] = [
   },
   {
     id: "saunders-street-villa",
-    title: "Beach",
+    title: "City Beach",
     description:
       "City Beach contemporary accommodation",
     category: "Exterior",
-    location: "Mosman Park",
+    location: "City Beach",
     image: siteImages.saunders,
   },
   {
