@@ -15,6 +15,7 @@ import { Route as AuthRouteImport } from './routes/auth'
 import { Route as CartRouteImport } from './routes/cart'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as CustomDesignsRouteImport } from './routes/custom-designs'
+import { Route as GalleryRouteImport } from './routes/gallery'
 import { Route as ProjectsRouteImport } from './routes/projects'
 import { Route as ServicesRouteImport } from './routes/services'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
@@ -53,6 +54,11 @@ const ContactRoute = ContactRouteImport.update({
 const CustomDesignsRoute = CustomDesignsRouteImport.update({
   id: '/custom-designs',
   path: '/custom-designs',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const GalleryRoute = GalleryRouteImport.update({
+  id: '/gallery',
+  path: '/gallery',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ProjectsRoute = ProjectsRouteImport.update({
@@ -113,6 +119,7 @@ export interface FileRoutesByFullPath {
   '/cart': typeof CartRoute
   '/contact': typeof ContactRoute
   '/custom-designs': typeof CustomDesignsRoute
+  '/gallery': typeof GalleryRoute
   '/projects': typeof ProjectsRoute
   '/services': typeof ServicesRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
@@ -130,6 +137,7 @@ export interface FileRoutesByTo {
   '/cart': typeof CartRoute
   '/contact': typeof ContactRoute
   '/custom-designs': typeof CustomDesignsRoute
+  '/gallery': typeof GalleryRoute
   '/projects': typeof ProjectsRoute
   '/services': typeof ServicesRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
@@ -149,6 +157,7 @@ export interface FileRoutesById {
   '/cart': typeof CartRoute
   '/contact': typeof ContactRoute
   '/custom-designs': typeof CustomDesignsRoute
+  '/gallery': typeof GalleryRoute
   '/projects': typeof ProjectsRoute
   '/services': typeof ServicesRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
@@ -168,6 +177,7 @@ export interface FileRouteTypes {
     | '/cart'
     | '/contact'
     | '/custom-designs'
+    | '/gallery'
     | '/projects'
     | '/services'
     | '/sitemap.xml'
@@ -185,6 +195,7 @@ export interface FileRouteTypes {
     | '/cart'
     | '/contact'
     | '/custom-designs'
+    | '/gallery'
     | '/projects'
     | '/services'
     | '/sitemap.xml'
@@ -203,6 +214,7 @@ export interface FileRouteTypes {
     | '/cart'
     | '/contact'
     | '/custom-designs'
+    | '/gallery'
     | '/projects'
     | '/services'
     | '/sitemap.xml'
@@ -222,6 +234,7 @@ export interface RootRouteChildren {
   CartRoute: typeof CartRoute
   ContactRoute: typeof ContactRoute
   CustomDesignsRoute: typeof CustomDesignsRoute
+  GalleryRoute: typeof GalleryRoute
   ProjectsRoute: typeof ProjectsRoute
   ServicesRoute: typeof ServicesRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
@@ -272,6 +285,13 @@ declare module '@tanstack/react-router' {
       path: '/custom-designs'
       fullPath: '/custom-designs'
       preLoaderRoute: typeof CustomDesignsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/gallery': {
+      id: '/gallery'
+      path: '/gallery'
+      fullPath: '/gallery'
+      preLoaderRoute: typeof GalleryRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/projects': {
@@ -382,6 +402,7 @@ const rootRouteChildren: RootRouteChildren = {
   CartRoute: CartRoute,
   ContactRoute: ContactRoute,
   CustomDesignsRoute: CustomDesignsRoute,
+  GalleryRoute: GalleryRoute,
   ProjectsRoute: ProjectsRoute,
   ServicesRoute: ServicesRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
