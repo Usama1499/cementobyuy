@@ -78,7 +78,7 @@ export const projects: Project[] = [
     description:
       "Flowing wall forms and recessed warm lighting — every corner radiused so there is not a single visible joint.",
     category: "Feature walls",
-    location: "Cottesloe",
+    location: "AI",
     image: siteImages.workHall,
   },
   {
@@ -133,7 +133,7 @@ export const projects: Project[] = [
     description:
       "Custom moulds and formwork built in-house, then coated so the joinery reads as one continuous surface.",
     category: "Custom designs",
-    location: "Applecross",
+    location: "AI Design",
     image: siteImages.customDesigns,
   },
   {
