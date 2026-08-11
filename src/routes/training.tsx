@@ -14,13 +14,13 @@ export const Route = createFileRoute("/training")({
       {
         name: "description",
         content:
-          "Hands-on micro cement training in Malaga, Perth. Next course 22 August 2026 — special offer $770. Learn prep, priming, trowelling, sanding and sealing from Maurizio and Rob.",
+          "Hands-on micro cement training in Malaga, Perth. Next course COMING SOON — special offer $770. Learn prep, priming, trowelling, sanding and sealing from Maurizio and Rob.",
       },
       { property: "og:title", content: "DIY Micro Cement Training in Perth | Cemento" },
       {
         property: "og:description",
         content:
-          "Next micro cement workshop 22 August 2026 in Malaga, Perth — special offer $770. Book now.",
+          "Next micro cement workshop coming soon in Malaga, Perth — special offer $770. Book now.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
@@ -38,6 +38,7 @@ const curriculum = [
   "Sanding between coats without burning through",
   "Sealing: Microshield, Superiorseal two-pack and WB2K epoxy",
   "Repairs, maintenance and what to tell your own clients",
+  "Accreditation",
 ];
 
 const trainers = [
@@ -81,7 +82,7 @@ function Training() {
           <p className="eyebrow">Upcoming training</p>
           <div className="surface-card mt-6 grid gap-8 rounded-sm p-8 md:grid-cols-[1.4fr_1fr] md:items-center md:p-10">
             <div>
-              <h2 className="text-3xl md:text-4xl">Next course: 22 August 2026</h2>
+              <h2 className="text-3xl md:text-4xl">Next course: Coming Soon </h2>
               <dl className="mt-6 grid gap-4 sm:grid-cols-3">
                 <div className="flex items-start gap-2.5">
                   <CalendarDays className="mt-0.5 h-4 w-4 shrink-0 text-clay" />
@@ -130,7 +131,7 @@ function Training() {
 
       <section className="container-page grid gap-12 py-20 lg:grid-cols-2 lg:items-start md:py-28">
         <img
-          src={siteImages.diyTraining}
+          src={siteImages.stephin}
           alt="Sanding a micro cement wall during a Cemento DIY training session"
           loading="lazy"
           width={1200}
