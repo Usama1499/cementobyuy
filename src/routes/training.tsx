@@ -43,15 +43,15 @@ const curriculum = [
 const trainers = [
   {
     name: "Maurizio Cremasco",
-    role: "Lead trainer & founder",
+    role: "Founder of Cemento",
     image: siteImages.maurizio,
-    bio: "Italian-trained applicator with decades on the trowel, Maurizo brought the Microestil system to Perth and has finished everything from single ensuites to multi-storey façades.",
+    bio: "As the founder of Cemento, Maurizio brings decades of hands-on experience in traditional plastering and decorative finishes.",
   },
   {
     name: "Rob Whitehurst",
     role: "Trade trainer & site supervisor",
     image: siteImages.trades,
-    bio: "Rob runs our install crews day to day. He teaches the practical side — substrate calls, sequencing, sanding and sealing — and the shortcuts that quietly ruin a job.",
+    bio: "With over 45 years in plastering and decorative finishes, Rob is a Master Plasterer whose expertise spans residential renovations to large-scale commercial projects.",
   },
 ];
 
