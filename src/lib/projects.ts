@@ -131,7 +131,7 @@ export const projects: Project[] = [
     id: "sculpted-joinery",
     title: "Sculpted joinery & mouldings",
     description:
-      "Custom moulds and formwork built in-house, then coated so the joinery reads as one continuous surface.",
+      "Custom moulds and formwork built in-house, then coated so the joinery, and we can built cutom furniture.",
     category: "Custom designs",
     location: "AI Design",
     image: siteImages.customDesigns,
