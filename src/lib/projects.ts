@@ -68,7 +68,7 @@ export const projects: Project[] = [
     description:
       "A double-height atrium wrapped in seamless micro cement, with a sculpted stair and circular window reveal finished in the same pour.",
     category: "Residential",
-    location: "Dalkeith",
+    location: "AI",
     image: siteImages.projectsPano,
     tall: true,
   },
@@ -87,7 +87,7 @@ export const projects: Project[] = [
     description:
       "A full-height feature wall with a hand-formed arched niche in Sabbia Fine, finished matte for a soft, chalky light.",
     category: "Residential",
-    location: "Mount Lawley",
+    location: "North Perth",
     image: siteImages.workLounge,
   },
   {
@@ -96,7 +96,7 @@ export const projects: Project[] = [
     description:
       "Slip-rated exterior micro cement over existing concrete — no tiles, no grout lines, no lifting edges.",
     category: "Outdoor",
-    location: "Scarborough",
+    location: "AI",
     image: siteImages.workPool,
   },
   {
@@ -105,7 +105,7 @@ export const projects: Project[] = [
     description:
       "Textured architectural detailing and curved balcony soffits across a multi-storey apartment development.",
     category: "Commercial",
-    location: "Perth CBD",
+    location: "Applecross",
     image: siteImages.forbes,
     tall: true,
   },
@@ -178,7 +178,7 @@ export const projects: Project[] = [
     description:
       "A sculpted cave-like bathing suite in seamless white micro cement, with an integrated stone spa and a full-height sea view opening.",
     category: "Bathrooms",
-    location: "North Coogee",
+    location: "AI",
     image: siteImages.cementoWork,
     tall: true,
   },
@@ -197,7 +197,7 @@ export const projects: Project[] = [
     description:
       "A hand-formed spiral stair coated in smooth micro cement, set against a textured feature wall in the same tonal family.",
     category: "Custom designs",
-    location: "Peppermint Grove",
+    location: "AI",
     image: siteImages.customDesignsHero,
   },
 ];
