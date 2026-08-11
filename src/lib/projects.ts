@@ -83,7 +83,7 @@ export const projects: Project[] = [
   },
   {
     id: "arched-niche-lounge",
-    title: "Arched niche living room",
+    title: "North Perth",
     description:
       "A full-height feature wall with a hand-formed arched niche in Sabbia Fine, finished matte for a soft, chalky light.",
     category: "Residential",
@@ -154,15 +154,15 @@ export const projects: Project[] = [
     location: "17 Irvine St, Malaga",
     image: siteImages.materials,
   },
-  {
-    id: "the-team",
-    title: "The Cemento trade team",
-    description:
-      "WASPA and HBA members, with apprentice-of-the-year winners on the tools — every job installed by our own crew.",
-    category: "Our team",
-    location: "Perth",
-    image: siteImages.trades,
-  },
+  // {
+  //   id: "the-team",
+  //   title: "The Cemento trade team",
+  //   description:
+  //     "WASPA and HBA members, with apprentice-of-the-year winners on the tools — every job installed by our own crew.",
+  //   category: "Our team",
+  //   location: "Perth",
+  //   image: siteImages.trades,
+  // },
   {
     id: "living-floor",
     title: "Whole-floor continuous pour",
@@ -184,9 +184,9 @@ export const projects: Project[] = [
   },
   {
     id: "saunders-street-villa",
-    title: "Saunders Street villa façade",
+    title: "Beach",
     description:
-      "A Mediterranean-style residence rendered and finished in textured exterior micro cement, from parapets to portico columns.",
+      "City Beach contemporary accommodation",
     category: "Exterior",
     location: "Mosman Park",
     image: siteImages.saunders,
