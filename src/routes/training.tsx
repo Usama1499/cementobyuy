@@ -49,7 +49,7 @@ const trainers = [
   },
   {
     name: "Rob Whitehurst",
-    role: "Trade trainer & site supervisor",
+    role: "Head Trainer",
     image: siteImages.trades,
     bio: "With over 45 years in plastering and decorative finishes, Rob is a Master Plasterer whose expertise spans residential renovations to large-scale commercial projects.",
   },
