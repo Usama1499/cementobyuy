@@ -28,9 +28,9 @@ import heroMicrocement from "@/assets/hero-microcement.jpg";
 import customDesigns from "@/assets/custom-designs.jpg";
 import training from "@/assets/training.jpg";
 
-// Gallery data - all images merged
+// Gallery data - ONLY assets images and projects images
 const galleryData = [
-  // Individual images from projects
+  // Individual images from assets
   {
     id: "hero-microcement",
     type: "single" as const,
@@ -42,6 +42,11 @@ const galleryData = [
     image: bathroom,
   },
   {
+    id: "bathroom-old",
+    type: "single" as const,
+    image: bathroomOld,
+  },
+  {
     id: "custom-designs",
     type: "single" as const,
     image: customDesigns,
@@ -51,13 +56,8 @@ const galleryData = [
     type: "single" as const,
     image: training,
   },
-  {
-    id: "bathroom-old",
-    type: "single" as const,
-    image: bathroomOld,
-  },
   
-  // Site images from projects
+  // Projects images (from siteImages that are project-related)
   {
     id: "projects-pano",
     type: "single" as const,
@@ -82,21 +82,6 @@ const galleryData = [
     id: "forbes",
     type: "single" as const,
     image: siteImages.forbes,
-  },
-  {
-    id: "banner",
-    type: "single" as const,
-    image: siteImages.banner,
-  },
-  {
-    id: "diy-training",
-    type: "single" as const,
-    image: siteImages.diyTraining,
-  },
-  {
-    id: "materials",
-    type: "single" as const,
-    image: siteImages.materials,
   },
   {
     id: "cemento-work",
